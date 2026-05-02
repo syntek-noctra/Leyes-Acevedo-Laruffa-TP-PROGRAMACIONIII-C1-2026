@@ -9,6 +9,11 @@ body{
     
 }
 /*==================================*/
+:root{
+    --white-GRID-color: #f5f5f5;
+    --black-GRID-color: #0f1116;
+    --green-GRID-color: #8ac4a2;
+}
 /*======ETIQUETAS PRINCIPALES======*/
 main{
     display: grid;
@@ -19,14 +24,14 @@ main{
 
 .ascii-title{
     grid-row: 1;
-    color: #f5f5f5;
+    color: var(--white-GRID-color);
     font-size: small;
     font-size: 21px;
 }
 
 .left-pattern{
     grid-row: 1;
-    color: #ffffff;
+    color: var(--white-GRID-color);
     position: fixed;
     left: 50px;
 
@@ -35,7 +40,7 @@ main{
 
 .right-pattern{
     grid-row: 1;
-    color: #ffffff;
+    color: var(--white-GRID-color);
     position: fixed;
     right: 50px;
 
@@ -54,10 +59,27 @@ main{
     
 }
 
+.button-enter{
+    background-color: var(--black-GRID-color);
+    color: var(--white-GRID-color);
+    font-weight: 900;
+    
+}
+
+
+#user-input:focus{
+    outline: var(--green-GRID-color);
+    color: var(--green-GRID-color);
+    font-weight: 700;
+    border-color: var(--white-GRID-color)
+}
+
 label{
-    color: #f5f5f5;
-    font-size: 45px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: 700;
+    color: var(--white-GRID-color);
+    font-size: 12px;
+    position: relative;
+    left: 6px;
 }
 
 
