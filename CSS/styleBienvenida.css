@@ -82,6 +82,18 @@ label{
     left: 6px;
 }
 
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.error{
+      border: 2px solid #d32f2f;
+  outline: none;
+  background-color: #ffe6e6;
+}
 
 /*==================================*/
 
