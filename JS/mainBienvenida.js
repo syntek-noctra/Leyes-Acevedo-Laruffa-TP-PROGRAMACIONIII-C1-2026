@@ -1,18 +1,18 @@
-/* VARIABLES PRINCIPALES*/
 
+/*===VARIABLES Y CONSTANTES PRINCIPALES===*/
 const registerBtn=document.querySelector(".button-enter");
-
 /**
  * @type {HTMLInputElement}
  * 
  */
 const userInput=document.getElementById("user-input");
+const MIN_LOGIN = 4;
+const KEY_USER_LOCAL = "userLocal"
 
 let hayError=false;
+/*========================================*/
 
-const MIN_LOGIN = 4;
-
-const KEY_USER_LOCAL = "userLocal"
+/*======FUNCIÓN DE CREACION DE ERROR======*/
 /**
  * 
  * @param {string} mensaje  Mensaje de error brindado por el sistema.
@@ -24,31 +24,31 @@ function createError(mensaje){
     p.textContent=mensaje;
     return p;
 }
-
+/*========================================*/
     
 
+/*=======CAPTURA DE CLICk EN BOTÓN=======*/
 registerBtn.addEventListener("click",(ev)=>{
-    console.log("ASDDAS");
+
     ev.preventDefault();
-    
     
     const userName=userInput.value;
 
-    if(userName.length< MIN_LOGIN && !hayError){
-        const p=createError("invalid name")
+    if(userName.length < MIN_LOGIN){
+        const p=createError("INVALID DATA")
         userInput.parentElement.appendChild(p);
         p.style.position = "fixed"
         p.style.left = "1055px"
         hayError=true;
+        return;
     }
+    else{
 
-    if(hayError) return;
-    console.log("-----------------")
+        const user={name:userName}
 
-    const user={name:userName}
+        localStorage.setItem(KEY_USER_LOCAL,JSON.stringify(user));
+        window.location.href = "productos.html";
 
-    localStorage.setItem(KEY_USER_LOCAL,JSON.stringify(user));
-    window.location.href = "productos.html";
-
-    
+    }
 });
+/*========================================*/
