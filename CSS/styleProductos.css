@@ -12,7 +12,9 @@ body{
     grid-template-rows: 150px 40px auto 200px;
     color: var(--white-GRID-color);
 }
+/*================================*/
 
+/**/
 .header{
     display:flex;
     justify-content:space-around;
