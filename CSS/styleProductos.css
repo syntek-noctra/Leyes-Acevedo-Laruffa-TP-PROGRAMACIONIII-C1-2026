@@ -14,10 +14,9 @@ body{
 }
 
 .header{
-    
-    display: flex;
-    justify-content: space-around;
-    align-content: center;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
 }
 
 .header > div{
@@ -28,5 +27,5 @@ body{
     height: fit-content;
     font-size: 30px;
     position: relative;
-    top: 40px;
+    
 }
