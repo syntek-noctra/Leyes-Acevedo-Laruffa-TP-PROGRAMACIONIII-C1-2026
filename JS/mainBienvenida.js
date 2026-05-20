@@ -35,10 +35,10 @@ registerBtn.addEventListener("click",(ev)=>{
     const userName=userInput.value;
 
     if(userName.length < MIN_LOGIN){
-        const p=createError("INVALID DATA")
+        const p=createError("INVALID DATA");
         userInput.parentElement.appendChild(p);
-        p.style.position = "fixed"
-        p.style.left = "1055px"
+        p.style.position = "fixed";
+        p.style.left = "1055px";
         hayError=true;
         return;
     }
