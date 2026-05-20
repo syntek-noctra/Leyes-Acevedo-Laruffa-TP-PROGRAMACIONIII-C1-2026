@@ -22,7 +22,7 @@ body{
 }
 
 .header > div{
-    border: 2px solid white;
+    
     justify-content: center;
     align-content: center;
     width: fit-content;
