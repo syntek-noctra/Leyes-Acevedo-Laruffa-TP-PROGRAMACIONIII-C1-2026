@@ -12,12 +12,13 @@ body{
     grid-template-rows: 150px 40px auto 200px;
     color: var(--white-GRID-color);
 }
+/*================================*/
 
+/**/
 .header{
-    
     display: flex;
     justify-content: space-around;
-    align-content: center;
+    align-items: center;
 }
 
 .header > div{
@@ -27,6 +28,37 @@ body{
     width: fit-content;
     height: fit-content;
     font-size: 30px;
-    position: relative;
-    top: 40px;
+
+}
+
+.boton-ascii{
+    font-size: 3px;
+}
+
+.brujulas-ascii{
+    font-size: 4px;
+    position: fixed;
+    top: 10px;
+}
+
+#brujula-ascii-1{
+    left: 50px;
+    
+}
+
+#brujula-ascii-2{
+    right: 50px;
+
+}
+
+
+#divisor-ascii{
+    display: flex;
+    justify-content: center;
+    
+}
+
+.principal-productos{
+    margin-top: 35px;
+    border: 2px solid white;
 }
