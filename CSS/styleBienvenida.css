@@ -8,6 +8,9 @@ html{
 }
 body{
     background-color: var(--black-GRID-color);
+    font-family: 'Special Elite', monospace; /* O la fuente que elijas */
+  white-space: pre;                       /* Evita que el navegador colapse los espacios */
+  line-height: 1.1;
     
 }
 /*==================================*/
