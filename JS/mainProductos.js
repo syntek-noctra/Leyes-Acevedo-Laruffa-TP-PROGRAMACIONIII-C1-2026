@@ -62,9 +62,12 @@ async function filtrarProductos(tipoProducto) {
 }
 
 async function mostrarProductosFiltrados( arrayProductosFiltrados ){
-    const divAgrupadora = document.createElement("div");
+    
 
     arrayProductosFiltrados.forEach( producto => {
+        const divAgrupadora = document.createElement("div");
+        divAgrupadora.classList.add("producto-card-div");
+
             const nombreElement = document.createElement("p");
             nombreElement.textContent = producto.nombre;
 
@@ -79,11 +82,10 @@ async function mostrarProductosFiltrados( arrayProductosFiltrados ){
             descripcionElement,
             imagenElement,
             ) 
-            return divAgrupadora;
-        }
-    )
+            productosContainer.appendChild(divAgrupadora)
+        });
 
-    productosContainer.appendChild(divAgrupadora)
+    
 }
 
 document.getElementById("btn-librerias").onclick = async () => {

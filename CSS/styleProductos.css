@@ -80,10 +80,25 @@ body{
 
 .principal-productos{
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
     width: 1200px;
     margin-left: 350px;
     margin-top: 35px;
     border: 2px dashed white;
+}
+
+
+.producto-card-div{
+       border: 1px solid white;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #111;
+}
+
+.producto-card-div img{
+      width: 100%;
+    height: auto;
 }
