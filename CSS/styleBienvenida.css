@@ -6,9 +6,11 @@ html{
     
 }
 body{
-    margin: 0;
-    background-color: #0f1116;
-    overflow-y: auto;
+    background-color: var(--black-GRID-color);
+    font-family: 'Special Elite', monospace; /* O la fuente que elijas */
+  white-space: pre;                       /* Evita que el navegador colapse los espacios */
+  line-height: 1.1;
+    
 }
 /*==================================*/
 :root{
