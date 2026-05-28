@@ -41,6 +41,12 @@ body{
     color: var(--black-GRID-color);
 }
 
+.selected-btn{
+    background-color: var(--white-GRID-color);
+    color: var(--black-GRID-color);
+}
+
+
 .brujulas-ascii{
     font-size: 4px;
     position:absolute;
@@ -102,3 +108,4 @@ body{
       width: 100%;
     height: auto;
 }
+
