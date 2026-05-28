@@ -5,7 +5,8 @@ const imgSimbolsAsides = [
 const leftSimbols = document.querySelector("#aside-simbols-left");
 const rightSimbols = document.querySelector("#aside-simbols-right");
 const productosContainer = document.getElementById("productos");
-
+const btnLib = document.getElementById("btn-librerias");
+const btnProg = document.getElementById("btn-programas");
 
 let indexSimbols = 0;
 
@@ -88,7 +89,10 @@ async function mostrarProductosFiltrados( arrayProductosFiltrados ){
     
 }
 
-document.getElementById("btn-librerias").onclick = async () => {
+/*IMPLEMENTACIÓN DE LÓGICA DE MUESTRA DE PRODUCTOS POR BOTON "LIBRERIAS"*/
+btnLib.onclick = async () => {
+    btnLib.classList.add("selected-btn");
+    btnProg.classList.remove("selected-btn");
     productosContainer.replaceChildren();
 
     const titulo = document.createElement("h2")
@@ -99,7 +103,10 @@ document.getElementById("btn-librerias").onclick = async () => {
     mostrarProductosFiltrados(prodFiltrados);
 };
 
-document.getElementById("btn-programas").onclick = async () => {
+/*IMPLEMENTACIÓN DE LÓGICA DE MUESTRA DE PRODUCTOS POR BOTON "PROGRAMAS"*/
+btnProg.onclick = async () => {
+    btnProg.classList.add("selected-btn");
+    btnLib.classList.remove("selected-btn");
     productosContainer.replaceChildren();
 
     const titulo = document.createElement("h2")
@@ -111,6 +118,7 @@ document.getElementById("btn-programas").onclick = async () => {
 };
 
 if(arrayCompleto.length < 1){
+    btnProg.classList.add("selected-btn");
     productosContainer.replaceChildren();
 
     const titulo = document.createElement("h2")
