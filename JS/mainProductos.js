@@ -7,6 +7,7 @@ const rightSimbols = document.querySelector("#aside-simbols-right");
 const productosContainer = document.getElementById("productos");
 const btnLib = document.getElementById("btn-librerias");
 const btnProg = document.getElementById("btn-programas");
+const iconImg=document.getElementById("logo");
 
 let indexSimbols = 0;
 
@@ -94,6 +95,7 @@ btnLib.onclick = async () => {
     btnLib.classList.add("selected-btn");
     btnProg.classList.remove("selected-btn");
     productosContainer.replaceChildren();
+    iconImg.src="../IMAGES/img-library.png";
 /*
     const titulo = document.createElement("h2")
     titulo.textContent="Librerias";
@@ -108,6 +110,7 @@ btnProg.onclick = async () => {
     btnProg.classList.add("selected-btn");
     btnLib.classList.remove("selected-btn");
     productosContainer.replaceChildren();
+    iconImg.src="../IMAGES/img-program.jpg";
 /*
     const titulo = document.createElement("h2")
     titulo.textContent="Programas";
