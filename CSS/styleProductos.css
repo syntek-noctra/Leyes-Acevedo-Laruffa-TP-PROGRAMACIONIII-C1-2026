@@ -37,13 +37,35 @@ body{
 
 .boton-ascii:hover{
     cursor: pointer;
-    background-color: var(--white-GRID-color);
-    color: var(--black-GRID-color);
+
+    color: #00ff88;
+
+    text-shadow:
+        0 0 5px #00ff88,
+        0 0 15px #00ff88;
+
+    transition: 0.2s;
 }
 
 .selected-btn{
-    background-color: var(--white-GRID-color);
-    color: var(--black-GRID-color);
+    background-color: #00ff88;
+    color: black;
+
+    text-shadow:
+        0 0 5px #00ff88,
+        0 0 10px #00ff88,
+        0 0 20px #00ff88;
+
+    box-shadow:
+        0 0 5px #00ff88,
+        0 0 15px #00ff88,
+        0 0 30px #00ff88;
+
+    border: 1px solid #00ff88;
+
+    transform: scale(1.02);
+
+    transition: all 0.2s ease;
 }
 
 
