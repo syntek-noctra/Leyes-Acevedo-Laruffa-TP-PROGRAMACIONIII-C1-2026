@@ -30,6 +30,12 @@
         "descripcion": "Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra.",
         "imagen": "https://picsum.photos/100",
         "stock": 10
+      },
+      {
+        "nombre": "Madeleine 47",
+        "descripcion": "Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra.",
+        "imagen": "https://picsum.photos/100",
+        "stock": 10
       }
     ]
   },
@@ -61,6 +67,12 @@
       },
       {
         "nombre": "Axios",
+        "descripcion": "In consectetur, elit nec luctus pulvinar, nulla lorem tristique ipsum, at facilisis magna turpis non odio.",
+        "imagen": "https://picsum.photos/100",
+        "stock": 22
+      },
+      {
+        "nombre": "KHROMMA",
         "descripcion": "In consectetur, elit nec luctus pulvinar, nulla lorem tristique ipsum, at facilisis magna turpis non odio.",
         "imagen": "https://picsum.photos/100",
         "stock": 22

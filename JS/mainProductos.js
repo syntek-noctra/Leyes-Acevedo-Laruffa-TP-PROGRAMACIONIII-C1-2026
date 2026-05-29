@@ -94,11 +94,11 @@ btnLib.onclick = async () => {
     btnLib.classList.add("selected-btn");
     btnProg.classList.remove("selected-btn");
     productosContainer.replaceChildren();
-
+/*
     const titulo = document.createElement("h2")
     titulo.textContent="Librerias";
     productosContainer.appendChild(titulo)
-
+*/
     const prodFiltrados = await filtrarProductos("librerias");
     mostrarProductosFiltrados(prodFiltrados);
 };
@@ -108,11 +108,11 @@ btnProg.onclick = async () => {
     btnProg.classList.add("selected-btn");
     btnLib.classList.remove("selected-btn");
     productosContainer.replaceChildren();
-
+/*
     const titulo = document.createElement("h2")
     titulo.textContent="Programas";
     productosContainer.appendChild(titulo)
-
+*/
     const prodFiltrados = await filtrarProductos("programas");
     mostrarProductosFiltrados(prodFiltrados);
 };
@@ -120,11 +120,11 @@ btnProg.onclick = async () => {
 if(arrayCompleto.length < 1){
     btnProg.classList.add("selected-btn");
     productosContainer.replaceChildren();
-
+/*
     const titulo = document.createElement("h2")
     titulo.textContent="Programas";
     productosContainer.appendChild(titulo)
-    
+ */   
     const prodFiltrados = await filtrarProductos("programas");
     mostrarProductosFiltrados(prodFiltrados);
 }
