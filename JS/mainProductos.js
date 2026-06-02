@@ -29,7 +29,7 @@ setInterval(() => {
 const arrayCompleto = [];
 
 async function cargarDatos() {
-    const response = await fetch("../DATA/datos.json");
+    const response = await fetch("http://localhost:3000/producto/");
     const datos = await response.json();
 
     arrayCompleto.push(...datos);
@@ -43,17 +43,17 @@ async function filtrarProductos(tipoProducto) {
      const productosFiltrados = [];
     if(arrayCompleto.length < 1){
         const datos = await cargarDatos() 
-        datos.forEach(grupo => {
-        if (grupo[tipoProducto]) {
-            productosFiltrados.push(...grupo[tipoProducto]);
+        datos.forEach(producto => {
+        if (producto.tipo===tipoProducto) {
+            productosFiltrados.push(producto);
         }
     });
     console.log("productos filtrados", productosFiltrados);
 
     }else{
-        arrayCompleto.forEach(grupo => {
-        if (grupo[tipoProducto]) {
-            productosFiltrados.push(...grupo[tipoProducto]);
+        arrayCompleto.forEach(producto => {
+        if (producto.tipo===tipoProducto) {
+            productosFiltrados.push(producto);
         }
     });
     console.log("productos filtrados", productosFiltrados);
@@ -101,7 +101,7 @@ btnLib.onclick = async () => {
     titulo.textContent="Librerias";
     productosContainer.appendChild(titulo)
 */
-    const prodFiltrados = await filtrarProductos("librerias");
+    const prodFiltrados = await filtrarProductos("libreria");
     mostrarProductosFiltrados(prodFiltrados);
 };
 
@@ -116,7 +116,7 @@ btnProg.onclick = async () => {
     titulo.textContent="Programas";
     productosContainer.appendChild(titulo)
 */
-    const prodFiltrados = await filtrarProductos("programas");
+    const prodFiltrados = await filtrarProductos("programa");
     mostrarProductosFiltrados(prodFiltrados);
 };
 
@@ -128,6 +128,6 @@ if(arrayCompleto.length < 1){
     titulo.textContent="Programas";
     productosContainer.appendChild(titulo)
  */   
-    const prodFiltrados = await filtrarProductos("programas");
+    const prodFiltrados = await filtrarProductos("programa");
     mostrarProductosFiltrados(prodFiltrados);
 }
