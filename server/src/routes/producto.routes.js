@@ -22,5 +22,5 @@ productoRouter.patch("/:id/desactivar",desactivarProducto);
 
 productoRouter.patch("/:id/activar",activarProducto);
 
-productoRouter.desactivarProducto
+
 module.exports=productoRouter;

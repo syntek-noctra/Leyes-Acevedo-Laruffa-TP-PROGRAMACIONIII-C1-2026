@@ -20,12 +20,12 @@ const modificarProductoBD=async(id,datos)=>{
 
 
 const desactivarProductoDB=async(id)=>{
-    return await Producto.update({activo:false},{where:id});
+    return await Producto.update({activo:false},{where:{id}});
 }
 
 
 const activarProductoBD=async(id)=>{
-    return await Producto.update({activo:true},{where:id});
+    return await Producto.update({activo:true},{where:{id}});
 }
 
 
