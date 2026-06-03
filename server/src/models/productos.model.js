@@ -29,6 +29,9 @@ const Producto=conexion.define("Producto",{
         type:DataTypes.ENUM("programa","libreria"),
         allowNull:false,
     },
+    stock:{
+        type:DataTypes.INTEGER,
+    },
     activo:{
         type:DataTypes.BOOLEAN,
         defaultValue:true,

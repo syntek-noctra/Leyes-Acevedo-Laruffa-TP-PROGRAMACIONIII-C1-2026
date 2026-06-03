@@ -21,8 +21,8 @@ const obtenerProductoPorId=async(req,res)=>{
 
 const modificarProducto=async(req,res)=>{
     const id=req.params.id;
-    const {nombre,precio,imagen,tipo,activo,}=req.body;
-    const productoModificado=await modificarProductoBD(id,{nombre,precio,imagen,tipo,activo});
+    const {nombre,precio,imagen,tipo,activo,stock,descripcion}=req.body;
+    const productoModificado=await modificarProductoBD(id,{nombre,precio,imagen,tipo,activo,stock,descripcion});
     if(productoModificado[0]!==0){
         res.send({mensaje:"Se ha modificado exitosamente"});
     }else{
@@ -46,8 +46,8 @@ const  deleteProductos=async(req,res)=>{
 }
 
 const crearProducto=async(req,res)=>{
-    const {nombre,precio,imagen,tipo,activo,descripcion}=req.body;
-    const productoCreado=await crearProductoBD({nombre,precio,imagen,tipo,activo,descripcion})
+    const {nombre,precio,imagen,tipo,activo,stock,descripcion}=req.body;
+    const productoCreado=await crearProductoBD({nombre,precio,imagen,tipo,activo,stock,descripcion})
     res.send(productoCreado);
 }
 

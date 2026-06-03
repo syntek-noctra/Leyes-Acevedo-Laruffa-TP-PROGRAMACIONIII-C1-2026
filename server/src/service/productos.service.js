@@ -17,7 +17,7 @@ const crearProductoBD=async(producto)=>{
 const modificarProductoBD=async(id,datos)=>{
     return await Producto.update(datos,{where:{id}})
 }
-
+  
 
 const desactivarProductoDB=async(id)=>{
     return await Producto.update({activo:false},{where:{id}});
