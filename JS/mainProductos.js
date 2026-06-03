@@ -7,6 +7,8 @@ const rightSimbols = document.querySelector("#aside-simbols-right");
 const productosContainer = document.getElementById("productos");
 const btnLib = document.getElementById("btn-librerias");
 const btnProg = document.getElementById("btn-programas");
+const iconImg=document.getElementById("logo");
+const productosAgregados = [];
 
 let indexSimbols = 0;
 
@@ -33,7 +35,7 @@ async function cargarDatos() {
 
     arrayCompleto.push(...datos);
 
-    console.log("array completo", arrayCompleto);
+    //console.log("array completo", arrayCompleto);
 
     return datos;
 }
@@ -55,7 +57,7 @@ async function filtrarProductos(tipoProducto) {
             productosFiltrados.push(...grupo[tipoProducto]);
         }
     });
-    console.log("productos filtrados", productosFiltrados);
+    /*console.log("productos filtrados", productosFiltrados);*/
     }
 
     return productosFiltrados;
@@ -77,13 +79,28 @@ async function mostrarProductosFiltrados( arrayProductosFiltrados ){
 
             const imagenElement = document.createElement("img");
             imagenElement.src = producto.imagen;
+            const stockElement = document.createElement("p");
+            stockElement.textContent = "STOCK: " + producto.stock;
+            const botonAgregar = document.createElement("button");
+            botonAgregar.textContent = "Agregar al carrito";
         
             divAgrupadora.append(
             nombreElement, 
             descripcionElement,
             imagenElement,
+            stockElement,
+            botonAgregar
             ) 
             productosContainer.appendChild(divAgrupadora)
+
+            botonAgregar.addEventListener("click", ()=>{
+                if(producto.stock > 0){
+                    producto.stock -= 1;
+                    stockElement.textContent = "STOCK: " + producto.stock;
+                    productosAgregados.push(producto);
+                    console.log(productosAgregados);
+                }
+            })
         });
 
     

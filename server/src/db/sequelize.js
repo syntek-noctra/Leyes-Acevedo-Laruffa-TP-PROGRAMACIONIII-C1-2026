@@ -1,6 +1,6 @@
 const {Sequelize}=require("sequelize");
 
-const conexion=new Sequelize ("proyecto","root","",{
+const conexion=new Sequelize ("proyecto","grid","grid123456",{
     host:"localhost",
     dialect:"mysql",
     port:"3306",
