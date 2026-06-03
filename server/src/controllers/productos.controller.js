@@ -4,11 +4,16 @@ const {obtenerProductosDB,
     desactivarProductoDB,
     deleteProductoDB,
     crearProductoBD,
-    activarProductoBD}=require("../service/productos.service");
+    activarProductoBD,
+crearProductosMasivoBD}=require("../service/productos.service");
 
 
 const obtenerProductos=async (req,res)=>{
-    const productos= await obtenerProductosDB();
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 6;
+    const {tipo}=req.query;
+    //preguntar como es que sabe el usuario que query poner.
+    const productos= await obtenerProductosDB(page,limit,tipo);
     res.send(productos);
 }    
 
@@ -19,6 +24,8 @@ const obtenerProductoPorId=async(req,res)=>{
     res.send(producto);
 }
 
+// explcaime esto const response=await fetch(`https://api.tvmaze.com/shows/${i}`) 
+//porque no pude hacerlo asi yo como ese link con ese formato
 const modificarProducto=async(req,res)=>{
     const id=req.params.id;
     const {nombre,precio,imagen,tipo,activo,}=req.body;
@@ -58,6 +65,14 @@ const activarProducto=async(req,res)=>{
     res.send(productoActivado);
 }
 
+
+//NO  IMPORTA ESTE METODO ES DE PRUEBA EN EL POSTMAN
+const crearProductosMasivo = async (req, res) => {
+    const productos = req.body;
+    const creados = await crearProductosMasivoBD(productos);
+    res.send(creados);
+};
+
 module.exports={obtenerProductos,
     obtenerProductoPorId,
     modificarProducto,
@@ -65,4 +80,5 @@ module.exports={obtenerProductos,
     deleteProductos,
     crearProducto,
     activarProducto,
+    crearProductosMasivo
 }

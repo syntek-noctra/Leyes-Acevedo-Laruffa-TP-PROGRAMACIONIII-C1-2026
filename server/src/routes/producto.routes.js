@@ -4,7 +4,8 @@ const {obtenerProductos,
     desactivarProducto,
     deleteProductos,
     crearProducto,
-    activarProducto}=require("../controllers/productos.controller");
+    activarProducto,
+crearProductosMasivo}=require("../controllers/productos.controller");
 
 
 const productoRouter=require("express").Router();
@@ -22,5 +23,5 @@ productoRouter.patch("/:id/desactivar",desactivarProducto);
 
 productoRouter.patch("/:id/activar",activarProducto);
 
-
+productoRouter.post("/masivo", crearProductosMasivo);
 module.exports=productoRouter;

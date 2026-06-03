@@ -8,9 +8,10 @@ const productosContainer = document.getElementById("productos");
 const btnLib = document.getElementById("btn-librerias");
 const btnProg = document.getElementById("btn-programas");
 const iconImg=document.getElementById("logo");
-
+let tipoActual=null;
 let indexSimbols = 0;
-
+let pagina = 1;
+let totalPaginas = 1;
 setInterval(() => {
 
     leftSimbols.src = imgSimbolsAsides[indexSimbols];
@@ -26,42 +27,21 @@ setInterval(() => {
 
 // FUNCIÓN PARA MOSTRAR LOS PRODUCTOS
 
-const arrayCompleto = [];
+let arrayCompleto = [];
 
 async function cargarDatos() {
-    const response = await fetch("http://localhost:3000/producto/");
+    const response = await fetch(`http://localhost:3000/producto?page=${pagina}&tipo=${tipoActual}`);
     const datos = await response.json();
 
-    arrayCompleto.push(...datos);
+    totalPaginas=Math.ceil(datos.count/pagina)
 
-    console.log("array completo", arrayCompleto);
+    arrayCompleto=datos.rows;
 
-    return datos;
+    console.log("array completo dede fetchh", arrayCompleto);
+    console.log("LENGTH  ",arrayCompleto.length);
+    return arrayCompleto;
 }
 
-async function filtrarProductos(tipoProducto) {
-     const productosFiltrados = [];
-    if(arrayCompleto.length < 1){
-        const datos = await cargarDatos() 
-        datos.forEach(producto => {
-        if (producto.tipo===tipoProducto) {
-            productosFiltrados.push(producto);
-        }
-    });
-    console.log("productos filtrados", productosFiltrados);
-
-    }else{
-        arrayCompleto.forEach(producto => {
-        if (producto.tipo===tipoProducto) {
-            productosFiltrados.push(producto);
-        }
-    });
-    console.log("productos filtrados", productosFiltrados);
-    }
-
-    return productosFiltrados;
-
-}
 
 async function mostrarProductosFiltrados( arrayProductosFiltrados ){
     
@@ -96,12 +76,13 @@ btnLib.onclick = async () => {
     btnProg.classList.remove("selected-btn");
     productosContainer.replaceChildren();
     iconImg.src="../IMAGES/img-library.png";
+    tipoActual="libreria";
 /*
     const titulo = document.createElement("h2")
     titulo.textContent="Librerias";
     productosContainer.appendChild(titulo)
 */
-    const prodFiltrados = await filtrarProductos("libreria");
+    const prodFiltrados = await cargarDatos();
     mostrarProductosFiltrados(prodFiltrados);
 };
 
@@ -111,12 +92,13 @@ btnProg.onclick = async () => {
     btnLib.classList.remove("selected-btn");
     productosContainer.replaceChildren();
     iconImg.src="../IMAGES/img-program.jpg";
+    tipoActual="programa";
 /*
     const titulo = document.createElement("h2")
     titulo.textContent="Programas";
     productosContainer.appendChild(titulo)
 */
-    const prodFiltrados = await filtrarProductos("programa");
+    const prodFiltrados = await cargarDatos();
     mostrarProductosFiltrados(prodFiltrados);
 };
 
@@ -128,6 +110,7 @@ if(arrayCompleto.length < 1){
     titulo.textContent="Programas";
     productosContainer.appendChild(titulo)
  */   
-    const prodFiltrados = await filtrarProductos("programa");
+    tipoActual="programa";
+    const prodFiltrados = await cargarDatos();
     mostrarProductosFiltrados(prodFiltrados);
 }

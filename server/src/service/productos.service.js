@@ -1,8 +1,13 @@
 const Producto=require("../models/productos.model");
 
-const obtenerProductosDB=async()=>{
-    return await Producto.findAll({
-        where: {activo:true}
+const obtenerProductosDB=async(page=1,limit=6,tipo)=>{
+    const offset=(page-1)*limit;
+    const where={activo:true};
+    if(tipo)where.tipo=tipo;
+    return await Producto.findAndCountAll({
+        where,
+        limit,
+        offset,
     });
 };
 
@@ -36,13 +41,20 @@ const deleteProductoDB = async (id) => {
 };
 
 
+
+
+//NO IMPORTA ESTE METODO 
+const crearProductosMasivoBD = async (productos) => {
+    return await Producto.bulkCreate(productos);
+};
+
 module.exports={
     obtenerProductosDB,
     obtenerProductoPorIdBD,
     crearProductoBD,
     modificarProductoBD,
     desactivarProductoDB,
-    desactivarProductoDB,
     activarProductoBD,
     deleteProductoDB,
+    crearProductosMasivoBD
 }
