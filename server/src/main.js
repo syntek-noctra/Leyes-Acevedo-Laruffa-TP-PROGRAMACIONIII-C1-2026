@@ -1,5 +1,7 @@
 const express=require("express");
+const cors = require("cors");
 const adminRouter=require("./routes/admin.routes");
+const productoRouter=require("./routes/producto.routes")
 const conexion=require("./db/sequelize");
 
 const app=express();
@@ -7,9 +9,9 @@ app.use(cors());
 app.use(express.json());
 
 
-app.use("/",adminRouter);
+app.use("/admin",adminRouter);
 
-
+app.use("/producto",productoRouter);
 
 
 
