@@ -36,6 +36,10 @@ const Producto=conexion.define("Producto",{
         type:DataTypes.BOOLEAN,
         defaultValue:true,
     },
+    agregado:{
+        type:DataTypes.BOOLEAN,
+        defaultValue:false,
+    }
 })
 
 module.exports=Producto;

@@ -29,6 +29,13 @@ setInterval(() => {
 
 const arrayCompleto = [];
 
+function sumarACarrito(producto,productosAgregados,stockElement){
+    producto.stock -= 1;
+    stockElement.textContent = "STOCK: " + producto.stock;
+    productosAgregados.push(producto);
+    console.log("CARRITO: "+ productosAgregados);
+}
+
 async function cargarDatos() {
     const response = await fetch("http://localhost:3000/producto/");
     const datos = await response.json();
@@ -68,6 +75,7 @@ async function mostrarProductosFiltrados( arrayProductosFiltrados ){
     
 
     arrayProductosFiltrados.forEach( producto => {
+        console.log(producto.agregado);
         const divAgrupadora = document.createElement("div");
         divAgrupadora.classList.add("producto-card-div");
 
@@ -82,7 +90,16 @@ async function mostrarProductosFiltrados( arrayProductosFiltrados ){
             const stockElement = document.createElement("p");
             stockElement.textContent = "STOCK: " + producto.stock;
             const botonAgregar = document.createElement("button");
-            botonAgregar.textContent = "Agregar al carrito";
+            botonAgregar.textContent = "++++ADD++++";
+            botonAgregar.classList.add("boton-add")
+            const divBotonesCarrito = document.createElement("div");
+            divBotonesCarrito.classList.add("div-botones-carrito")
+            const botonSumar=document.createElement("button");
+            botonSumar.textContent="+";
+            const botonRestar = document.createElement("button");
+            botonRestar.textContent="-";
+               
+            divBotonesCarrito.append(botonRestar,botonSumar);
         
             divAgrupadora.append(
             nombreElement, 
@@ -95,12 +112,49 @@ async function mostrarProductosFiltrados( arrayProductosFiltrados ){
 
             botonAgregar.addEventListener("click", ()=>{
                 if(producto.stock > 0){
-                    producto.stock -= 1;
-                    stockElement.textContent = "STOCK: " + producto.stock;
-                    productosAgregados.push(producto);
-                    console.log(productosAgregados);
+                    producto.agregado = true;
+                    divAgrupadora.classList.add("card-seleccionada")
+                    sumarACarrito(producto,productosAgregados,stockElement);
+                    console.log(producto.agregado);
+
                 }
+                if(producto.agregado){
+                botonAgregar.remove();
+                divAgrupadora.append(divBotonesCarrito);
+            }
+
+            
+
             })
+
+            botonSumar.addEventListener("click",()=>{
+                if(producto.stock > 0){
+                    sumarACarrito(producto,productosAgregados,stockElement);
+                }
+
+            })
+
+            botonRestar.addEventListener("click",()=>{
+                
+                
+                    if(productosAgregados.includes(producto)){
+                        producto.stock+=1;
+                        stockElement.textContent = "STOCK: " + producto.stock;
+                        const indice= productosAgregados.indexOf(producto);
+                        productosAgregados.splice(indice,1);
+                        console.log(productosAgregados);
+                    }
+                    if(productosAgregados.length===0 || !productosAgregados.includes(producto)){
+                    divBotonesCarrito.remove();
+                    divAgrupadora.append(botonAgregar);
+                    divAgrupadora.classList.remove("card-seleccionada");
+                }
+                    
+                    
+                
+            })
+
+            
         });
 
     
