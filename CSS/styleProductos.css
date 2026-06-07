@@ -140,3 +140,37 @@ main {
     border-top: 1px solid var(--green-GRID-color);
     padding-top: 10px;
 }
+
+
+#paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 20px 0;
+    width: 100%;
+}
+
+#paginacion button {
+    background-color: transparent;
+    color: var(--green-GRID-color);
+    border: 1px solid var(--green-GRID-color);
+    padding: 8px 20px;
+    cursor: pointer;
+    font-family: monospace;
+    letter-spacing: 2px;
+    transition: all 0.2s ease;
+}
+
+#paginacion button:hover {
+    background-color: var(--green-GRID-color);
+    color: black;
+    box-shadow: 0 0 5px #00ff88, 0 0 15px #00ff88;
+}
+
+#info-pagina {
+    color: var(--white-GRID-color);
+    font-family: monospace;
+    letter-spacing: 2px;
+    font-size: 14px;
+}

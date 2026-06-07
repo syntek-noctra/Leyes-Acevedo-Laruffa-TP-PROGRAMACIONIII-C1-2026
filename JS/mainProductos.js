@@ -8,10 +8,16 @@ const productosContainer = document.getElementById("productos");
 const btnLib = document.getElementById("btn-librerias");
 const btnProg = document.getElementById("btn-programas");
 const iconImg=document.getElementById("logo");
+const btnAnterior=document.getElementById("btn-anterior");
+const btnSiguiente=document.getElementById("btn-siguiente");
+
+
+
 let tipoActual=null;
 let indexSimbols = 0;
 let pagina = 1;
 let totalPaginas = 1;
+
 setInterval(() => {
 
     leftSimbols.src = imgSimbolsAsides[indexSimbols];
@@ -30,13 +36,17 @@ setInterval(() => {
 let arrayCompleto = [];
 
 async function cargarDatos() {
+    const url = tipoActual 
+    ? `http://localhost:3000/producto?page=${pagina}&tipo=${tipoActual}`
+    : `http://localhost:3000/producto?page=${pagina}`;
     const response = await fetch(`http://localhost:3000/producto?page=${pagina}&tipo=${tipoActual}`);
     const datos = await response.json();
+    const limit=6;
 
-    totalPaginas=Math.ceil(datos.count/pagina)
+    totalPaginas=Math.ceil(datos.count/limit);
 
     arrayCompleto=datos.rows;
-
+    document.getElementById("info-pagina").textContent = `Página ${pagina} de ${totalPaginas}`;
     console.log("array completo dede fetchh", arrayCompleto);
     console.log("LENGTH  ",arrayCompleto.length);
     return arrayCompleto;
@@ -114,3 +124,24 @@ if(arrayCompleto.length < 1){
     const prodFiltrados = await cargarDatos();
     mostrarProductosFiltrados(prodFiltrados);
 }
+
+
+btnSiguiente.addEventListener("click",async()=>{
+    if(pagina<totalPaginas){
+        pagina++;
+        productosContainer.replaceChildren();
+        const productos=await cargarDatos();
+        mostrarProductosFiltrados(productos);
+    }
+});
+
+
+
+btnAnterior.addEventListener("click",async()=>{
+    if(pagina>1){
+         pagina--;
+        productosContainer.replaceChildren();
+        const productos=await cargarDatos();
+        mostrarProductosFiltrados(productos);
+    }
+})
