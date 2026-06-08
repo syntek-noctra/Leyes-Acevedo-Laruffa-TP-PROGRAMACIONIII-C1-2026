@@ -8,6 +8,7 @@ const productosContainer = document.getElementById("productos");
 const btnLib = document.getElementById("btn-librerias");
 const btnProg = document.getElementById("btn-programas");
 const iconImg=document.getElementById("logo");
+const carritoCompras=document.getElementById("cantidad-carrito");
 const productosAgregados = [];
 
 let indexSimbols = 0;
@@ -29,11 +30,43 @@ setInterval(() => {
 
 const arrayCompleto = [];
 
+
+// FUNCION PARA ACTULIZAR EL CARRITO DEL LOCALSTORAGE
+function actualizarCarrito(){
+    // carritoCompras.replaceChildren();
+    // carritoCompras.append(`${productosAgregados.length}`)
+
+    // localStorage.setItem("carritoDeProductos", JSON.stringify(productosAgregados));
+
+    carritoCompras.replaceChildren();
+
+    const carrito = JSON.parse(localStorage.getItem("carritoDeProductos")) || [];
+
+    carritoCompras.append(`${carrito.length}`);
+}
+
+
 function sumarACarrito(producto,productosAgregados,stockElement){
+    // producto.stock -= 1;
+    // stockElement.textContent = "STOCK: " + producto.stock;
+    // productosAgregados.push(producto);
+    // console.log("CARRITO: "+ productosAgregados);
+    // actualizarCarrito()
+    // FUNCIÓN DE SUMAR MODIFICADA PARA ALMACENAR PROD EN EL CARRITO DE LOCALSTORAGE
+    
     producto.stock -= 1;
     stockElement.textContent = "STOCK: " + producto.stock;
-    productosAgregados.push(producto);
-    console.log("CARRITO: "+ productosAgregados);
+
+    const carrito = JSON.parse(localStorage.getItem("carritoDeProductos")) || [];
+
+    carrito.push(producto);
+
+    localStorage.setItem(
+        "carritoDeProductos",
+        JSON.stringify(carrito)
+    );
+
+    actualizarCarrito();
 }
 
 async function cargarDatos() {
@@ -137,20 +170,50 @@ async function mostrarProductosFiltrados( arrayProductosFiltrados ){
             botonRestar.addEventListener("click",()=>{
                 
                 
-                    if(productosAgregados.includes(producto)){
-                        producto.stock+=1;
-                        stockElement.textContent = "STOCK: " + producto.stock;
-                        const indice= productosAgregados.indexOf(producto);
-                        productosAgregados.splice(indice,1);
-                        console.log(productosAgregados);
-                    }
-                    if(productosAgregados.length===0 || !productosAgregados.includes(producto)){
+                //     if(productosAgregados.includes(producto)){
+                //         producto.stock+=1;
+                //         stockElement.textContent = "STOCK: " + producto.stock;
+                //         const indice= productosAgregados.indexOf(producto);
+                //         productosAgregados.splice(indice,1);
+                //         console.log(productosAgregados);
+                //         actualizarCarrito()
+                //     }
+                //     if(productosAgregados.length===0 || !productosAgregados.includes(producto)){
+                //     divBotonesCarrito.remove();
+                //     divAgrupadora.append(botonAgregar);
+                //     divAgrupadora.classList.remove("card-seleccionada");
+                // }
+                // FUNCIÓN DE RESTAR MODIFICADA PARA ALMACENAR PROD EN EL CARRITO DE LOCALSTORAGE
+                const carrito = JSON.parse(localStorage.getItem("carritoDeProductos")) || [];
+
+                const indice = carrito.findIndex(
+                    prod => prod.id === producto.id
+                );
+
+                if (indice !== -1) {
+
+                    producto.stock += 1;
+                    stockElement.textContent = "STOCK: " + producto.stock;
+
+                    carrito.splice(indice, 1);
+
+                    localStorage.setItem(
+                        "carritoDeProductos",
+                        JSON.stringify(carrito)
+                    );
+
+                    actualizarCarrito();
+                }
+
+                if (
+                    carrito.length === 0 ||
+                    !carrito.some(p => p.id === producto.id)
+                ) {
                     divBotonesCarrito.remove();
                     divAgrupadora.append(botonAgregar);
                     divAgrupadora.classList.remove("card-seleccionada");
                 }
-                    
-                    
+                
                 
             })
 
@@ -201,3 +264,5 @@ if(arrayCompleto.length < 1){
     const prodFiltrados = await filtrarProductos("programa");
     mostrarProductosFiltrados(prodFiltrados);
 }
+
+actualizarCarrito();
