@@ -1,67 +1,80 @@
-const {obtenerProductosDB,
+const { obtenerProductosDB,
     obtenerProductoPorIdBD,
     modificarProductoBD,
     desactivarProductoDB,
     deleteProductoDB,
     crearProductoBD,
     activarProductoBD,
-crearProductosMasivoBD}=require("../service/productos.service");
+    crearProductosMasivoBD } = require("../service/productos.service");
 
 
-const obtenerProductos=async (req,res)=>{
+const obtenerProductos = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 6;
-    const {tipo}=req.query;
+    const { tipo } = req.query;
     //preguntar como es que sabe el usuario que query poner.
-    const productos= await obtenerProductosDB(page,limit,tipo);
+    const productos = await obtenerProductosDB(page, limit, tipo);
     res.send(productos);
-}    
+}
 
 
-const obtenerProductoPorId=async(req,res)=>{
-    const {id}=req.params;  // == const id=req.params.id;
-    const producto= await obtenerProductoPorIdBD(id);
+const obtenerProductoPorId = async (req, res) => {
+    const { id } = req.params;  // == const id=req.params.id;
+    const producto = await obtenerProductoPorIdBD(id);
     res.send(producto);
 }
 
 // explcaime esto const response=await fetch(`https://api.tvmaze.com/shows/${i}`) 
 //porque no pude hacerlo asi yo como ese link con ese formato
-const modificarProducto=async(req,res)=>{
-    const id=req.params.id;
-    const {nombre,precio,imagen,tipo,activo,}=req.body;
-    const productoModificado=await modificarProductoBD(id,{nombre,precio,imagen,tipo,activo});
-    if(productoModificado[0]!==0){
-        res.send({mensaje:"Se ha modificado exitosamente"});
-    }else{
-        res.send({mensaje:"No se ha podido modificar"});
+const modificarProducto = async (req, res) => {
+    const id = req.params.id;
+    const datos = { ...req.body }; // esto lo hago asi porque si en modificar desde el frontend me mandan solamente 2 parametros por ejempllo -> modifico solo precio y nombre
+    //entonces me toma literal solo es 2 parametros ,si pusiera todos los parametros y pase undefined me rompe la base, ademas lo hago asi porque nose que datos me va a modifciar.
+
+
+    if (req.file) {
+        datos.imagen = req.file.filename;
     }
-    
+    const productoModificado = await modificarProductoBD(id, datos);
+
+
+    if (productoModificado[0] === 0) {
+        return res.status(404).send({
+            mensaje: "Producto no encontrado"
+        });
+    }
+
+    res.send({
+        mensaje: "Se ha modificado exitosamente"
+    });
+
 }
 
 
-const desactivarProducto=async(req,res)=>{
-    const {id}=req.params;
-    const productoDesactivado=await desactivarProductoDB(id);
+const desactivarProducto = async (req, res) => {
+    const { id } = req.params;
+    const productoDesactivado = await desactivarProductoDB(id);
     res.send(productoDesactivado);
 }
 
 
-const  deleteProductos=async(req,res)=>{
-    const {id}=req.params;
-    const eliminado=await deleteProductoDB(id);
+const deleteProductos = async (req, res) => {
+    const { id } = req.params;
+    const eliminado = await deleteProductoDB(id);
     res.send(eliminado);
 }
 
-const crearProducto=async(req,res)=>{
-    const {nombre,precio,imagen,tipo,activo,descripcion}=req.body;
-    const productoCreado=await crearProductoBD({nombre,precio,imagen,tipo,activo,descripcion})
+const crearProducto = async (req, res) => {
+    const { nombre, precio, tipo, activo, descripcion } = req.body;
+    const imagen = req.file.filename;
+    const productoCreado = await crearProductoBD({ nombre, precio, imagen, tipo, activo, descripcion })
     res.send(productoCreado);
 }
 
 
-const activarProducto=async(req,res)=>{
-    const {id}=req.params;
-    const productoActivado=await activarProductoBD(id);
+const activarProducto = async (req, res) => {
+    const { id } = req.params;
+    const productoActivado = await activarProductoBD(id);
     res.send(productoActivado);
 }
 
@@ -73,7 +86,8 @@ const crearProductosMasivo = async (req, res) => {
     res.send(creados);
 };
 
-module.exports={obtenerProductos,
+module.exports = {
+    obtenerProductos,
     obtenerProductoPorId,
     modificarProducto,
     desactivarProducto,

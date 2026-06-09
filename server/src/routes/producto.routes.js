@@ -6,6 +6,8 @@ const {obtenerProductos,
     crearProducto,
     activarProducto,
 crearProductosMasivo}=require("../controllers/productos.controller");
+const middlewareMulter = require("../../middlewares/multer");
+const { validarIDMW, validarProductoACrear, validarProductoModificado } = require("../../middlewares/producto.middlewares");
 
 
 const productoRouter=require("express").Router();
@@ -13,15 +15,17 @@ const productoRouter=require("express").Router();
 
 productoRouter.get("/",obtenerProductos);
 
-productoRouter.get("/:id",obtenerProductoPorId);
+productoRouter.get("/:id",validarIDMW,obtenerProductoPorId);
 
-productoRouter.put("/:id",modificarProducto);
 
-productoRouter.post("/",crearProducto);
+//preguntar SI ACA NECEISTO  PONER MULTER.
+productoRouter.put("/:id",middlewareMulter.single("imagenProducto"),validarIDMW,validarProductoModificado,modificarProducto);
 
-productoRouter.patch("/:id/desactivar",desactivarProducto);
+productoRouter.post("/",middlewareMulter.single("imagenProducto"),validarProductoACrear,crearProducto);
 
-productoRouter.patch("/:id/activar",activarProducto);
+productoRouter.patch("/:id/desactivar",validarIDMW,desactivarProducto);
+
+productoRouter.patch("/:id/activar",validarIDMW,activarProducto);
 
 productoRouter.post("/masivo", crearProductosMasivo);
 module.exports=productoRouter;

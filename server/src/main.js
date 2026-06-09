@@ -5,6 +5,9 @@ const productoRouter=require("./routes/producto.routes")
 const conexion=require("./db/sequelize");
 
 const app=express();
+
+app.use(("/imagenes/productos",express.static("imagenes/productos/")))
+
 app.use(cors()); 
 app.use(express.json());
 
