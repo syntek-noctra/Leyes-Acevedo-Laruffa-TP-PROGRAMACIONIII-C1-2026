@@ -5,7 +5,7 @@ const { obtenerProductosDB,
     deleteProductoDB,
     crearProductoBD,
     activarProductoBD,
-    crearProductosMasivoBD } = require("../service/productos.service");
+    crearProductosMasivoBD,} = require("../service/productos.service");
 
 
 const obtenerProductos = async (req, res) => {
@@ -24,8 +24,7 @@ const obtenerProductoPorId = async (req, res) => {
     res.send(producto);
 }
 
-// explcaime esto const response=await fetch(`https://api.tvmaze.com/shows/${i}`) 
-//porque no pude hacerlo asi yo como ese link con ese formato
+
 const modificarProducto = async (req, res) => {
     const id = req.params.id;
     const datos = { ...req.body }; // esto lo hago asi porque si en modificar desde el frontend me mandan solamente 2 parametros por ejempllo -> modifico solo precio y nombre
@@ -65,9 +64,9 @@ const deleteProductos = async (req, res) => {
 }
 
 const crearProducto = async (req, res) => {
-    const { nombre, precio, tipo, activo, descripcion } = req.body;
+    const { nombre, precio, tipo, descripcion } = req.body;
     const imagen = req.file.filename;
-    const productoCreado = await crearProductoBD({ nombre, precio, imagen, tipo, activo, descripcion })
+    const productoCreado = await crearProductoBD({ nombre, precio, imagen, tipo, descripcion })
     res.send(productoCreado);
 }
 
@@ -85,6 +84,10 @@ const crearProductosMasivo = async (req, res) => {
     const creados = await crearProductosMasivoBD(productos);
     res.send(creados);
 };
+
+
+
+
 
 module.exports = {
     obtenerProductos,

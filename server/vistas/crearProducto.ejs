@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Alta Producto - G.R.I.D</title>
+    <link rel="stylesheet" href="/public/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>G.R.I.D - Panel de Administración</h1>
+        <p>Leyes - Acevedo - Laruffa</p>
+        <nav>
+            <a href="/admin/dashboard">Dashboard</a>
+            <a href="/admin/producto/nuevo">Agregar Producto</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="campo">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" placeholder="Nombre del producto">
+        </div>
+
+        <div class="campo">
+            <label for="descripcion">Descripcion</label>
+            <textarea id="descripcion" placeholder="Descripcion del producto"></textarea>
+        </div>
+
+        <div class="campo">
+            <label for="precio">Precio</label>
+            <input type="number" id="precio" placeholder="Precio del producto">
+        </div>
+
+        <div class="campo">
+            <label for="tipo">Tipo</label>
+            <select id="tipo">
+                <option value="programa">Programa</option>
+                <option value="libreria">Librería</option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <input type="file" id="imagen" />
+        </div>
+
+
+        <button onclick="crearProducto()">Agregar Producto</button>
+    </main>
+
+    <script>
+        async function crearProducto() {
+            const formData = new FormData();
+            formData.append("nombre", document.getElementById("nombre").value);
+            formData.append("descripcion", document.getElementById("descripcion").value);
+            formData.append("precio", document.getElementById("precio").value);
+            formData.append("tipo", document.getElementById("tipo").value);
+            formData.append("imagenProducto", document.getElementById("imagen").files[0]);
+
+            const respuesta = await fetch("/producto", {
+                method: "POST",
+                body: formData,
+
+            })
+
+            if(respuesta.ok){
+    window.location.href = "/admin/dashboard";
+} else {
+    const error = await respuesta.json();
+    console.log(error.errores[0].message); // mostrás los errores de Zod
+}
+        }
+
+    </script>
+</body>

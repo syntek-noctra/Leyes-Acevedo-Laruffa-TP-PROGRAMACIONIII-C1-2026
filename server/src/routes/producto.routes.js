@@ -27,5 +27,10 @@ productoRouter.patch("/:id/desactivar",validarIDMW,desactivarProducto);
 
 productoRouter.patch("/:id/activar",validarIDMW,activarProducto);
 
+
+
+
+
+
 productoRouter.post("/masivo", crearProductosMasivo);
 module.exports=productoRouter;

@@ -30,7 +30,7 @@ const validarProductoACrear = (req, res, next) => {
     });
 
     if (!resultado.success) {
-        return res.status(400).send({errores: resultado.error.errors});
+        return res.status(400).send({errores: resultado.error.issues});
     }
 
     req.body=resultado.data;

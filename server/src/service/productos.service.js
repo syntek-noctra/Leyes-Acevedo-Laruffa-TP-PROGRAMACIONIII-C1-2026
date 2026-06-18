@@ -25,7 +25,7 @@ const modificarProductoBD=async(id,datos)=>{
 
 
 const desactivarProductoDB=async(id)=>{
-    return await Producto.update({activo:false},{where:{id}});
+    return await Producto.update({activo:false},{where:{id:id}});
 }
 
 
@@ -40,6 +40,10 @@ const deleteProductoDB = async (id) => {
   });
 };
 
+
+const buscarTodosProductosDB=async ()=>{
+    return await Producto.findAll();
+}
 
 
 
@@ -56,5 +60,6 @@ module.exports={
     desactivarProductoDB,
     activarProductoBD,
     deleteProductoDB,
-    crearProductosMasivoBD
+    crearProductosMasivoBD,
+    buscarTodosProductosDB,
 }

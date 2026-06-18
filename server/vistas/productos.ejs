@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos</title>
+    <link rel="stylesheet" href="/public/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>G.R.I.D - Panel de Administración</h1>
+        <p>Leyes - Acevedo - Laruffa</p>
+        <nav>
+            <a href="/admin/dashboard">Dashboard</a>
+            <a href="/admin/productoNuevo">Agregar Producto</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Programas</h2>
+        <div class="productos-grid">
+            <%productos.filter(p=>p.tipo ==="programa").forEach(producto=>{%>
+                <div class="producto-card <%= producto.activo ? '':'inactivo' %>">
+                    <img src="<%= producto.imagen.startsWith('http') ? producto.imagen : '/imagenes/productos/' + producto.imagen %>">
+                    <!--<img src=""< producto.imagen>">-->
+                    <h3>
+                        <%= producto.nombre %>
+                    </h3>
+                    <p>
+                        <%= producto.descripcion %>
+                    </p>
+                    <p>$<%= producto.precio %>
+                    </p>
+                    <p>Estado: <%=producto.activo ? "activo" : "Inactivo" %>
+                    </p>
+
+
+                    <div class="acciones">
+                        <a href="/admin/editar/<%= producto.id%>">Editar</a>
+                        <% if(producto.activo) {%>
+                            <!-- va sin igual porque solo quiero verificar el valor no mostrarlo.-->
+                            <a href="/admin/producto/desactivar/<%=producto.id%>">Desactivar</a>
+                            <% }else{ %>
+                                <a href="/admin/producto/activar/<%= producto.id %>">activar</a>
+                                <% } %>
+                    </div>
+                </div>
+                <% }) %>
+        </div>
+
+
+        <h2>LIBRERIAS</h2>
+        <div class="productos-grid">
+            <%productos.filter(p=>p.tipo ==="libreria").forEach(producto=>{%>
+                <div class="producto-card <%= producto.activo ? '':'inactivo' %>">
+                    <img src="<%= producto.imagen.startsWith('http') ? producto.imagen : '/imagenes/productos/' + producto.imagen %>">
+                    <!--<img src=""< producto.imagen>">-->
+                    <h3>
+                        <%= producto.nombre %>
+                    </h3>
+                    <p>
+                        <%= producto.descripcion %>
+                    </p>
+                    <p>$<%= producto.precio %>
+                    </p>
+                    <p>Estado: <%=producto.activo ? "activo" : "Inactivo" %>
+                    </p>
+
+
+                    <div class="acciones">
+                        <a href="/admin/editar/<%= producto.id%>">Editar</a>
+                        <% if(producto.activo) {%>
+                            <!-- va sin igual porque solo quiero verificar el valor no mostrarlo.-->
+                            <a href="/admin/producto/desactivar/<%= producto.id %>">Desactivar</a>
+                            <% }else{ %>
+                                <a href="/admin/producto/activar/<%= producto.id %>">activar</a>
+                                <% } %>
+                    </div>
+                </div>
+                <% }) %>
+        </div>
+
+        <a href="/admin/ventas/excel">Descargar ventas en Excel</a>
+    </main>
+</body>
+
+</html>

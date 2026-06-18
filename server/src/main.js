@@ -5,12 +5,17 @@ const productoRouter=require("./routes/producto.routes")
 const conexion=require("./db/sequelize");
 
 const app=express();
+app.use(cors());
 
-app.use(("/imagenes/productos",express.static("imagenes/productos/")))
+app.use("/imagenes/productos",express.static("imagenes/productos/"));
+app.use("/public",express.static("public/styles/"))
 
-app.use(cors()); 
 app.use(express.json());
 
+// SSR -> MOTOR DE VISTAS EJS
+app.set("view engine","ejs");
+// Donde van nuestras vistas
+app.set("views","./vistas");
 
 app.use("/admin",adminRouter);
 
