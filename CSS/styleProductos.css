@@ -6,6 +6,11 @@
     --green-GRID-color: #8ac4a2;
 }
 
+a{
+    text-decoration: none;
+    color:#fff;
+}
+
 html, body {
     height: 100%;
     width: 100%;
@@ -126,13 +131,13 @@ main {
 }
 
 .boton-add{
-    width: 180px;
+    width: 80%;
+    margin:0 auto;
     background-color: #0f1116;
     color: var(--white-GRID-color);
     font-weight: 900;
     border-width: 3px;
     border-color: #00ff88;
-    position: absolute;
     bottom: 23px;
     right: 10px;
 }
@@ -148,17 +153,14 @@ main {
 
 .div-botones-carrito{
     display: flex;
+    justify-content: space-between;
     gap: 10px;
-    width:fit-content;
-    height: fit-content;
-    position: absolute;
-    bottom: 24px;
-    right: 50px;
-
+    width:80%;
+    margin: 0 auto;
 }
 
 .div-botones-carrito > button{
-    width: 70px;
+    width: 30%;
     background-color: #0f1116;
     color: var(--white-GRID-color);
     font-weight: 900;
@@ -229,6 +231,16 @@ object-fit: contain;
 .carritoProductos{
     display: flex;
     flex-direction: column;
+    gap:15px;
+    padding:2rem 0 0 0;
+}
+.carritoProductos .header-carrito{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 110px;
+}
+.carritoProductos .header-carrito h2{
+    font-size:16px;
 }
 
 #carritoProductos .producto-card-div{
@@ -236,10 +248,11 @@ object-fit: contain;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    gap:25px;
 }
 
 #carritoProductos .producto-card-div p{
-max-width: 300px;
+max-width: 200px;
 overflow: auto;
 }
 
@@ -249,4 +262,25 @@ overflow: auto;
     object-fit: contain;
     margin:0;
     padding: 0;
+}
+
+.carritoProductos .totalContent{
+    width: 100%;
+    text-align: end;
+}
+
+dialog{
+    border:none;
+    border-radius:10px;
+    padding:20px;
+}
+
+dialog::backdrop{
+    background:rgba(0,0,0,.6);
+}
+
+.modal-buttons{
+    display:flex;
+    gap:1rem;
+    justify-content:center;
 }

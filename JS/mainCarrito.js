@@ -1,24 +1,39 @@
-
 const productosContainer = document.getElementById("carritoProductos");
+import { generarTicket } from "./ticket.js";
+const modalCompra = document.getElementById("modalCompra");
+const btnCancelarCompra = document.getElementById("btnCancelarCompra");
+const btnConfirmarCompra = document.getElementById("btnConfirmarCompra");
 
-function mostrarProductosFiltrados( arrayProductosFiltrados ){
+// Traigo los datos de forma global en el carrito
+const cantidades = JSON.parse(  localStorage.getItem("carritoDeProductos") ) || {};    
+const datos = await cargarDatos(cantidades);
+let productosCompra = []
+productosCompra =  datos;
+
+async function mostrarProductosFiltrados( cantidadesLocalStorage ){
     // OBTENER CANTIDADES DE LOS PRODUCTOS POR ID
-    const cantidades = arrayProductosFiltrados.reduce((acc, producto) => {
-    acc[producto.id] = (acc[producto.id] || 0) + 1;
-    return acc;
-    }, {});
+    
+    const cantidades = JSON.parse(  localStorage.getItem("carritoDeProductos") ) || {};    
 
-    console.log(cantidades);
+    const datos= await cargarDatos(cantidades)
+    console.log("datos del fetch por id",datos)
+    console.log("cantidades local storage",cantidades)
 
-    const productosUnicos = [
-            ...new Map(
-                arrayProductosFiltrados.map(producto => [producto.id, producto])
-            ).values()
-            ];  
+    const comprarButton = document.createElement("button");
+    comprarButton.textContent="COMPRAR";
+    comprarButton.addEventListener("click", () => { modalCompra.showModal(); });
+    btnCancelarCompra.addEventListener( "click", () => modalCompra.close() );
+    btnConfirmarCompra.addEventListener( "click", async () => { 
 
-    console.log(productosUnicos)
+        // const funcionPostParaEnviarTodaLaInforAlBackend= () => null;
+        modalCompra.close();
+        // const funcionTraerDatosDelBackendDespuesDelPost= () => null;
+        // const extraigoLosDatosDeLaVentaDeLaFuncion = funcionTraerDatosDelBackendDespuesDelPost();
 
-    productosUnicos.forEach( producto => {
+        generarTicket({ numeroVenta: 1, productos: datos, total: calcularSubTotal(productosCompra) });
+    });
+    
+    datos.forEach( producto => {
         console.log(producto.agregado);
         const divAgrupadora = document.createElement("div");
         divAgrupadora.classList.add("producto-card-div");
@@ -40,9 +55,10 @@ function mostrarProductosFiltrados( arrayProductosFiltrados ){
             botonSumar.textContent="+";
             const botonRestar = document.createElement("button");
             botonRestar.textContent="-";
-            const cantidad = carrito.filter(
-                p => p.id === producto.id
-            ).length;
+            const cantidadElement = document.createElement("p");
+            cantidadElement.textContent = `${cantidades[producto.id]}`
+            const precioElement = document.createElement("p");
+            precioElement.textContent = `${[producto.precio]}`
             
                
             divBotonesCarrito.append(botonRestar,botonSumar);
@@ -51,15 +67,50 @@ function mostrarProductosFiltrados( arrayProductosFiltrados ){
             imagenElement,
             nombreElement, 
             descripcionElement,
-            cantidad,
+            cantidadElement,
+            precioElement,
             ) 
             productosContainer.appendChild(divAgrupadora)
 
 
             
         });
+
+        const totalElement = document.createElement("p");
+        totalElement.textContent = `$ ${calcularSubTotal(datos)}`;
+        totalElement.classList.add("totalContent");
+        productosContainer.appendChild(totalElement)
+        productosContainer.appendChild(comprarButton)
 }
 
 const carrito = JSON.parse(localStorage.getItem("carritoDeProductos")) || [];
+
+async function cargarDatos(cantidadesLocalStorage) {
+
+    const ids = Object.keys(cantidadesLocalStorage);
+
+    const productos = await Promise.all(
+
+        ids.map(async id => {
+
+            const response = await fetch( `http://localhost:3000/producto/${id}` );
+
+            const producto = await response.json();
+
+            return { ...producto,  cantidad: cantidadesLocalStorage[id]
+            };
+        })
+
+    );
+
+    return productos;
+}
+
+function calcularSubTotal(arrayDeProductos){
+    const total = arrayDeProductos.reduce((acc, producto) => acc + (producto.precio * producto.cantidad), 0);
+    return total;
+    console.log("subtotal es",total);
+}
+
 
 mostrarProductosFiltrados(carrito)
