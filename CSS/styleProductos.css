@@ -6,6 +6,11 @@
     --green-GRID-color: #8ac4a2;
 }
 
+a{
+    text-decoration: none;
+    color:#fff;
+}
+
 html, body {
     height: 100%;
     width: 100%;
@@ -262,4 +267,20 @@ overflow: auto;
 .carritoProductos .totalContent{
     width: 100%;
     text-align: end;
+}
+
+dialog{
+    border:none;
+    border-radius:10px;
+    padding:20px;
+}
+
+dialog::backdrop{
+    background:rgba(0,0,0,.6);
+}
+
+.modal-buttons{
+    display:flex;
+    gap:1rem;
+    justify-content:center;
 }

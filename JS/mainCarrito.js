@@ -1,14 +1,19 @@
 const productosContainer = document.getElementById("carritoProductos");
 import { generarTicket } from "./ticket.js";
+const modalCompra = document.getElementById("modalCompra");
+const btnCancelarCompra = document.getElementById("btnCancelarCompra");
+const btnConfirmarCompra = document.getElementById("btnConfirmarCompra");
 
+// Traigo los datos de forma global en el carrito
+const cantidades = JSON.parse(  localStorage.getItem("carritoDeProductos") ) || {};    
+const datos = await cargarDatos(cantidades);
+let productosCompra = []
+productosCompra =  datos;
 
 async function mostrarProductosFiltrados( cantidadesLocalStorage ){
     // OBTENER CANTIDADES DE LOS PRODUCTOS POR ID
     
-    const cantidades =
-    JSON.parse(
-        localStorage.getItem("carritoDeProductos")
-    ) || {};    
+    const cantidades = JSON.parse(  localStorage.getItem("carritoDeProductos") ) || {};    
 
     const datos= await cargarDatos(cantidades)
     console.log("datos del fetch por id",datos)
@@ -16,9 +21,17 @@ async function mostrarProductosFiltrados( cantidadesLocalStorage ){
 
     const comprarButton = document.createElement("button");
     comprarButton.textContent="COMPRAR";
-    comprarButton.addEventListener("click",() => {
-        generarTicket({ numeroVenta :1, productos: datos, total:calcularSubTotal(datos)})
-    })
+    comprarButton.addEventListener("click", () => { modalCompra.showModal(); });
+    btnCancelarCompra.addEventListener( "click", () => modalCompra.close() );
+    btnConfirmarCompra.addEventListener( "click", async () => { 
+
+        // const funcionPostParaEnviarTodaLaInforAlBackend= () => null;
+        modalCompra.close();
+        // const funcionTraerDatosDelBackendDespuesDelPost= () => null;
+        // const extraigoLosDatosDeLaVentaDeLaFuncion = funcionTraerDatosDelBackendDespuesDelPost();
+
+        generarTicket({ numeroVenta: 1, productos: datos, total: calcularSubTotal(productosCompra) });
+    });
     
     datos.forEach( producto => {
         console.log(producto.agregado);
@@ -80,15 +93,11 @@ async function cargarDatos(cantidadesLocalStorage) {
 
         ids.map(async id => {
 
-            const response = await fetch(
-                `http://localhost:3000/producto/${id}`
-            );
+            const response = await fetch( `http://localhost:3000/producto/${id}` );
 
             const producto = await response.json();
 
-            return {
-                ...producto,
-                cantidad: cantidadesLocalStorage[id]
+            return { ...producto,  cantidad: cantidadesLocalStorage[id]
             };
         })
 
