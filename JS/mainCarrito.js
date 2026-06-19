@@ -1,4 +1,6 @@
 const productosContainer = document.getElementById("carritoProductos");
+import { generarTicket } from "./ticket.js";
+
 
 async function mostrarProductosFiltrados( cantidadesLocalStorage ){
     // OBTENER CANTIDADES DE LOS PRODUCTOS POR ID
@@ -6,12 +8,17 @@ async function mostrarProductosFiltrados( cantidadesLocalStorage ){
     const cantidades =
     JSON.parse(
         localStorage.getItem("carritoDeProductos")
-    ) || {};
-    
+    ) || {};    
 
     const datos= await cargarDatos(cantidades)
     console.log("datos del fetch por id",datos)
     console.log("cantidades local storage",cantidades)
+
+    const comprarButton = document.createElement("button");
+    comprarButton.textContent="COMPRAR";
+    comprarButton.addEventListener("click",() => {
+        generarTicket({ numeroVenta :1, productos: datos, total:calcularSubTotal(datos)})
+    })
     
     datos.forEach( producto => {
         console.log(producto.agregado);
@@ -60,6 +67,7 @@ async function mostrarProductosFiltrados( cantidadesLocalStorage ){
         totalElement.textContent = `$ ${calcularSubTotal(datos)}`;
         totalElement.classList.add("totalContent");
         productosContainer.appendChild(totalElement)
+        productosContainer.appendChild(comprarButton)
 }
 
 const carrito = JSON.parse(localStorage.getItem("carritoDeProductos")) || [];

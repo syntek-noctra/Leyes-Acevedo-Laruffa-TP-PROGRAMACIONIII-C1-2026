@@ -11,14 +11,14 @@ export function obtenerDatosCarrito(){
     return carrito
 }
 
-export function actualizarCarrito(){
+export function actualizarCarrito(carritoDom){
 
-    carritoCompras.replaceChildren();
+    carritoDom.replaceChildren();
     const carrito = obtenerDatosCarrito();
 
     const total = Object.values(carrito).reduce((acc, cantidad) => acc + cantidad, 0);
 
-    carritoCompras.append(total);
+    carritoDom.append(total);
 }
 
 export function sumarACarrito(producto){
@@ -31,7 +31,7 @@ export function sumarACarrito(producto){
 
     localStorage.setItem("carritoDeProductos", JSON.stringify(carrito));
 
-    actualizarCarrito();
+    actualizarCarrito(carritoCompras);
     return carrito[producto.id];
 }
 
@@ -154,7 +154,7 @@ export async function mostrarProductosFiltrados( arrayProductosFiltrados ){
             sumarACarrito(prod);
 
             actualizarVista();
-            actualizarCarrito();
+            actualizarCarrito(carritoCompras);
         }
 
         function restarProducto() {
@@ -173,7 +173,7 @@ export async function mostrarProductosFiltrados( arrayProductosFiltrados ){
 
             localStorage.setItem( "carritoDeProductos", JSON.stringify(carritoActual) );
 
-            actualizarCarrito();
+            actualizarCarrito(carritoCompras);
 
             actualizarVista();
         }
@@ -240,6 +240,4 @@ btnProg.onclick = async () => {
 };
 
 mostrarProductosFiltrados(prodFiltrados);
-calcularSubTotal(prodFiltrados, obtenerDatosCarrito())
-actualizarCarrito()
-calcularSubTotal()
+actualizarCarrito(carritoCompras)
