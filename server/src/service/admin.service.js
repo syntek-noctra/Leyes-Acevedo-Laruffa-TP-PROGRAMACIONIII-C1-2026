@@ -1,4 +1,5 @@
 const Admin=require("../models/admin.model");
+const Producto = require("../models/productos.model");
 
 const findAdminsDB=async()=>{
     console.log("HOLAAA")
@@ -9,6 +10,8 @@ const findAdminsDB=async()=>{
 const createAdminDB=async(admin)=>{
     return await Admin.create(admin);
 };
+
+
 
 
 module.exports={

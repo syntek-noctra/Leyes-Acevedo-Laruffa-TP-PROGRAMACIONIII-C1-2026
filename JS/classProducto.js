@@ -27,7 +27,6 @@ export class classProducto {
     }
 
     createHtmlElement(carrito = {}) {
-
         const divAgrupadora = document.createElement("div");
         divAgrupadora.classList.add("producto-card-div");
 
@@ -41,7 +40,6 @@ export class classProducto {
         imagenElement.src = this.imagen;
 
         const cantidadSeleccionada = carrito[this.id] || 0;
-
         const stockDisponible = this.stock - cantidadSeleccionada;
 
         const stockElement = document.createElement("p");

@@ -26,6 +26,11 @@
         </div>
 
         <img id="logo" src="/IMAGES/logo G.R.I.D.png" height=150px width=150px>
+        <div id="cantidad-carrito-container">
+    <a href="../HTML/carrito.html">
+        🛒 <span id="cantidad-carrito">0</span>
+    </a>
+</div>
 
         <div >
             <pre class="boton-ascii" id="btn-librerias"> ▄            ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄   ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄ 
@@ -100,6 +105,7 @@
     <main>
         <section id="productos" class="principal-productos">
         </section>
+       
         <img class="aside-simbols" id="aside-simbols-left" src="/IMAGES/Asides_Products_G.R.I.D.png">
         <img class="aside-simbols" id="aside-simbols-right" src="/IMAGES/Asides_Products_G.R.I.D.png">
         <a class="carrito-icono" id="carrito-icono" href="./carrito.html">
@@ -108,11 +114,18 @@
         </a>
 
     </main>
+     <div id="paginacion">
+    <button id="btn-anterior">Anterior</button>
+    <span id="info-pagina">Página 1 de 1</span>
+    <button id="btn-siguiente">Siguiente</button>
+</div>
     <footer class="grid-footer">
     <p>LUCAS LARUFFA // FACUNDO ACEVEDO // AGUSTIN LEYES</p>
     </footer>
 
     <script type="module"  src="/JS/classProducto.js"></script>
     <script type="module"  src="/JS/productos.js"></script>
+</footer>
+   <script type="module" src="/JS/mainProductos.js"></script>
 </body>
 </html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Producto - G.R.I.D</title>
+    <link rel="stylesheet" href="/public/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>G.R.I.D - Panel de Administración</h1>
+        <p>Leyes - Acevedo - Laruffa</p>
+        <nav>
+            <a href="/admin/dashboard">Dashboard</a>
+            <a href="/admin/producto/nuevo">Agregar Producto</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="campo">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" placeholder="Nombre del producto" value="<%= producto.nombre %>">
+        </div>
+
+        <div class="campo">
+            <label for="descripcion">Descripcion</label>
+            <textarea id="descripcion" placeholder="Descripcion del producto"><%= producto.descripcion %></textarea>
+        </div>
+
+        <div class="campo">
+            <label for="precio">Precio</label>
+            <input type="number" id="precio" placeholder="Precio del producto" value="<%= producto.precio %>">
+        </div>
+
+        <div class="campo">
+            <label for="tipo">Tipo</label>
+            <select id="tipo">
+                <option value="programa" <%=producto.tipo==="programa" ? "selected" : "" %>>Programa</option>
+
+                <option value="libreria" <%=producto.tipo==="libreria" ? "selected" : "" %>>Libreria</option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <input type="file" id="imagen" />
+        </div>
+
+
+        <button onclick="modificarProducto()">Editar Producto</button>
+    </main>
+
+    <script>
+
+        async function modificarProducto() {
+
+            const id = "<%= producto.id %>";
+
+            const formData = new FormData();
+            const nombre = document.getElementById("nombre").value;
+            const descripcion = document.getElementById("descripcion").value;
+            const precio = document.getElementById("precio").value;
+            const tipo = document.getElementById("tipo").value;
+
+            if (nombre) formData.append("nombre", nombre);
+            if (descripcion) formData.append("descripcion", descripcion);
+            if (precio) formData.append("precio", precio);
+            if (tipo) formData.append("tipo", tipo);
+
+            const imagen = document.getElementById("imagen").files[0];
+            if (imagen) formData.append("imagenProducto", imagen);
+
+            const respuesta = await fetch(`/producto/${id}`, {
+                method: "PUT",
+                body: formData,
+            });
+
+
+            if (respuesta.ok) {
+                window.location.href = "/admin/dashboard";
+            }
+        }
+
+        /*   async function crearProducto() {
+              const formData = new FormData();
+              formData.append("nombre", document.getElementById("nombre").value);
+              formData.append("descripcion", document.getElementById("descripcion").value);
+              formData.append("precio", document.getElementById("precio").value);
+              formData.append("tipo", document.getElementById("tipo").value);
+              formData.append("imagenProducto", document.getElementById("imagen").files[0]);
+  
+              const respuesta = await fetch("/producto", {
+                  method: "POST",
+                  body: formData,
+  
+              })
+  
+              if(respuesta.ok){
+      window.location.href = "/admin/dashboard";
+  } else {
+      const error = await respuesta.json();
+      console.log(error.errores[0].message); // mostrás los errores de Zod
+  }
+          } */
+
+    </script>
+</body>

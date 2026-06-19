@@ -1,3 +1,7 @@
+
+import { classProducto } from "./classProducto.js";
+
+// ELEMENTOS DEL DOM
 const imgSimbolsAsides = [
     "/IMAGES/Asides_Products_G.R.I.D.png",
     "/IMAGES/Asides_Products_G.R.I.D Inverted.png",
@@ -11,126 +15,187 @@ const iconImg=document.getElementById("logo");
 const carritoCompras=document.getElementById("cantidad-carrito");
 const productosAgregados = [];
 
+// VARIABLES GLOBALES
+let tipoActual = "programa";
 let indexSimbols = 0;
+let pagina = 1;
+let totalPaginas = 1;
+let arrayCompleto = [];
 
+// ANIMACION ASIDES
 setInterval(() => {
-
     leftSimbols.src = imgSimbolsAsides[indexSimbols];
     rightSimbols.src = imgSimbolsAsides[indexSimbols];
-
     indexSimbols++;
-
-    if(indexSimbols >= imgSimbolsAsides.length){
-        indexSimbols = 0;
-    }
-
+    if (indexSimbols >= imgSimbolsAsides.length) indexSimbols = 0;
 }, 1000);
 
-// FUNCIÓN PARA MOSTRAR LOS PRODUCTOS
-
-const arrayCompleto = [];
-
-
-// FUNCION PARA ACTULIZAR EL CARRITO DEL LOCALSTORAGE
-
-function obtenerDatosCarrito(){
-    const carrito =
-        JSON.parse(localStorage.getItem("carritoDeProductos")) || {};
-
-    return carrito
+// CARRITO
+export function obtenerDatosCarrito() {
+    return JSON.parse(localStorage.getItem("carritoDeProductos")) || {};
 }
 
-function actualizarCarrito(){
-
+export function actualizarCarrito() {
     carritoCompras.replaceChildren();
-
     const carrito = obtenerDatosCarrito();
-
-    const total = Object.values(carrito)
-        .reduce((acc, cantidad) => acc + cantidad, 0);
-
+    const total = Object.values(carrito).reduce((acc, cantidad) => acc + cantidad, 0);
     carritoCompras.append(total);
 }
 
-
-function sumarACarrito(producto,productosAgregados,stockElement){
-    // producto.stock -= 1;
-    // stockElement.textContent = "STOCK: " + producto.stock;
-    // productosAgregados.push(producto);
-    // console.log("CARRITO: "+ productosAgregados);
-    // actualizarCarrito()
-    // FUNCIÓN DE SUMAR MODIFICADA PARA ALMACENAR PROD EN EL CARRITO DE LOCALSTORAGE
-    // console.log("stock seleccionado", producto.stock);
-    
-    // producto.stock -= 1;
-    // stockElement.textContent = "STOCK: " + producto.stock;
-
-    // const carrito = JSON.parse(localStorage.getItem("carritoDeProductos")) || [];
-
-    
-
-    // carrito.push(producto);
-
-    // localStorage.setItem(
-    //     "carritoDeProductos",
-    //     JSON.stringify(carrito)
-    // );
-
-    // actualizarCarrito();
-    producto.stock -= 1;
-    stockElement.textContent = "STOCK: " + producto.stock;
-
-    const carrito =
-        JSON.parse(localStorage.getItem("carritoDeProductos")) || {};
-
-    if (carrito[producto.id]) {
-        carrito[producto.id]++;
-    } else {
-        carrito[producto.id] = 1;
-    }
-
-    localStorage.setItem(
-        "carritoDeProductos",
-        JSON.stringify(carrito)
-    );
-
+export function sumarACarrito(producto) {
+    const carrito = obtenerDatosCarrito();
+    carrito[producto.id] = (carrito[producto.id] || 0) + 1;
+    localStorage.setItem("carritoDeProductos", JSON.stringify(carrito));
     actualizarCarrito();
+    return carrito[producto.id];
 }
 
+// FETCH CON PAGINACION Y TIPO
 async function cargarDatos() {
-    const response = await fetch("http://localhost:3000/producto/");
+    const url = tipoActual
+        ? `http://localhost:3000/producto?page=${pagina}&tipo=${tipoActual}`
+        : `http://localhost:3000/producto?page=${pagina}`;
+
+    const response = await fetch(url);
     const datos = await response.json();
+    const limit = 6;
 
-    arrayCompleto.push(...datos);
+    totalPaginas = Math.ceil(datos.count / limit);
+    arrayCompleto = datos.rows;
 
-    //console.log("array completo", arrayCompleto);
+    document.getElementById("info-pagina").textContent = `Página ${pagina} de ${totalPaginas}`;
 
-    return datos;
+    return arrayCompleto;
 }
 
-async function filtrarProductos(tipoProducto) {
-     const productosFiltrados = [];
-    if(arrayCompleto.length < 1){
-        const datos = await cargarDatos() 
-        datos.forEach(producto => {
-        if (producto.tipo===tipoProducto) {
-            productosFiltrados.push(producto);
-        }
-    });
-    console.log("productos filtrados", productosFiltrados);
+// MOSTRAR PRODUCTOS CON CARRITO
+export async function mostrarProductosFiltrados(arrayProductosFiltrados) {
+    const carrito = obtenerDatosCarrito();
 
-    }else{
-        arrayCompleto.forEach(producto => {
-        if (producto.tipo===tipoProducto) {
-            productosFiltrados.push(producto);
+    arrayProductosFiltrados.forEach(prod => {
+        const nuevoProdcuto = new classProducto({ ...prod });
+
+        const {
+            divAgrupadora,
+            botonAgregar,
+            botonSumar,
+            botonRestar,
+            stockElement,
+            cantidadSeleccionadaElement,
+            divBotonesCarrito
+        } = nuevoProdcuto.createHtmlElement(carrito); //me retorna  todo esos elementos y me ahorro hacer el "x:x directamente pongo x"
+
+        const cantidadSeleccionadaInicial = carrito[prod.id] || 0;
+
+        productosContainer.appendChild(divAgrupadora);
+
+        if (cantidadSeleccionadaInicial > 0) {
+            divAgrupadora.append(divBotonesCarrito);
+            divAgrupadora.classList.add("card-seleccionada");
+        } else {
+            divAgrupadora.append(botonAgregar);
         }
+
+        function actualizarVista() {
+            const carritoActual = obtenerDatosCarrito();
+            const cantidadActual = carritoActual[prod.id] || 0;
+            cantidadSeleccionadaElement.textContent = cantidadActual;
+            stockElement.textContent = "STOCK: " + (prod.stock - cantidadActual);
+
+            if (cantidadActual > 0) {
+                if (!divBotonesCarrito.isConnected) {
+                    botonAgregar.remove();
+                    divAgrupadora.append(divBotonesCarrito);
+                }
+                divAgrupadora.classList.add("card-seleccionada");
+            } else {
+                divBotonesCarrito.remove();
+                if (!botonAgregar.isConnected) {
+                    divAgrupadora.append(botonAgregar);
+                }
+                divAgrupadora.classList.remove("card-seleccionada");
+            }
+        }
+
+        function agregarProducto() {
+            const carritoActual = obtenerDatosCarrito();
+            const cantidadActual = carritoActual[prod.id] || 0;
+            if (cantidadActual >= prod.stock) return;
+            sumarACarrito(prod);
+            actualizarVista();
+            actualizarCarrito();
+        }
+
+        function restarProducto() {
+            const carritoActual = obtenerDatosCarrito();
+            if (!carritoActual[prod.id]) return;
+            carritoActual[prod.id]--;
+            if (carritoActual[prod.id] <= 0) delete carritoActual[prod.id];
+            localStorage.setItem("carritoDeProductos", JSON.stringify(carritoActual));
+            actualizarCarrito();
+            actualizarVista();
+        }
+
+        botonAgregar.addEventListener("click", agregarProducto);
+        botonSumar.addEventListener("click", () => {
+            const carritoActual = obtenerDatosCarrito();
+            const cantidadActual = carritoActual[prod.id] || 0;
+            if (cantidadActual >= prod.stock) return;
+            sumarACarrito(prod);
+            actualizarVista();
+        });
+        botonRestar.addEventListener("click", restarProducto);
     });
-    /*console.log("productos filtrados", productosFiltrados);*/
+}
+
+// BOTONES DE CATEGORIA
+btnLib.onclick = async () => {
+    btnLib.classList.add("selected-btn");
+    btnProg.classList.remove("selected-btn");
+    productosContainer.replaceChildren();
+    iconImg.src = "../IMAGES/img-library.png";
+    tipoActual = "libreria";
+    pagina = 1;
+    const productos = await cargarDatos();
+    mostrarProductosFiltrados(productos);
+};
+
+btnProg.onclick = async () => {
+    btnProg.classList.add("selected-btn");
+    btnLib.classList.remove("selected-btn");
+    productosContainer.replaceChildren();
+    iconImg.src = "../IMAGES/img-program.jpg";
+    tipoActual = "programa";
+    pagina = 1;
+    const productos = await cargarDatos();
+    mostrarProductosFiltrados(productos);
+};
+
+// BOTONES DE PAGINACION
+btnSiguiente.addEventListener("click", async () => {
+    if (pagina < totalPaginas) {
+        pagina++;
+        productosContainer.replaceChildren();
+        const productos = await cargarDatos();
+        mostrarProductosFiltrados(productos);
     }
+});
 
-    return productosFiltrados;
+btnAnterior.addEventListener("click", async () => {
+    if (pagina > 1) {
+        pagina--;
+        productosContainer.replaceChildren();
+        const productos = await cargarDatos();
+        mostrarProductosFiltrados(productos);
+    }
+});
 
-}
+// CARGA INICIAL
+btnProg.classList.add("selected-btn");
+productosContainer.replaceChildren();
+const prodFiltrados = await cargarDatos();
+mostrarProductosFiltrados(prodFiltrados);
+actualizarCarrito();
 
 async function mostrarProductosFiltrados( arrayProductosFiltrados ){
     
@@ -271,28 +336,6 @@ async function mostrarProductosFiltrados( arrayProductosFiltrados ){
 
             botonRestar.addEventListener("click",()=>{
                 
-                
-                //     if(productosAgregados.includes(producto)){
-                //         producto.stock+=1;
-                //         stockElement.textContent = "STOCK: " + producto.stock;
-                //         const indice= productosAgregados.indexOf(producto);
-                //         productosAgregados.splice(indice,1);
-                //         console.log(productosAgregados);
-                //         actualizarCarrito()
-                //     }
-                //     if(productosAgregados.length===0 || !productosAgregados.includes(producto)){
-                //     divBotonesCarrito.remove();
-                //     divAgrupadora.append(botonAgregar);
-                //     divAgrupadora.classList.remove("card-seleccionada");
-                // }
-                // FUNCIÓN DE RESTAR MODIFICADA PARA ALMACENAR PROD EN EL CARRITO DE LOCALSTORAGE
-                //  console.log("stock seleccionado", producto.stock, producto);
-    
-                // const carrito = JSON.parse(localStorage.getItem("carritoDeProductos")) || [];
-
-                // const indice = carrito.findIndex(
-                //     prod => prod.id === producto.id
-                // );
 
                 const carrito = obtenerDatosCarrito();
 
@@ -340,51 +383,6 @@ async function mostrarProductosFiltrados( arrayProductosFiltrados ){
             })
 
             
-        });
+        })};
 
-    
-}
 
-/*IMPLEMENTACIÓN DE LÓGICA DE MUESTRA DE PRODUCTOS POR BOTON "LIBRERIAS"*/
-btnLib.onclick = async () => {
-    btnLib.classList.add("selected-btn");
-    btnProg.classList.remove("selected-btn");
-    productosContainer.replaceChildren();
-    iconImg.src="../IMAGES/img-library.png";
-/*
-    const titulo = document.createElement("h2")
-    titulo.textContent="Librerias";
-    productosContainer.appendChild(titulo)
-*/
-    const prodFiltrados = await filtrarProductos("libreria");
-    mostrarProductosFiltrados(prodFiltrados);
-};
-
-/*IMPLEMENTACIÓN DE LÓGICA DE MUESTRA DE PRODUCTOS POR BOTON "PROGRAMAS"*/
-btnProg.onclick = async () => {
-    btnProg.classList.add("selected-btn");
-    btnLib.classList.remove("selected-btn");
-    productosContainer.replaceChildren();
-    iconImg.src="../IMAGES/img-program.jpg";
-/*
-    const titulo = document.createElement("h2")
-    titulo.textContent="Programas";
-    productosContainer.appendChild(titulo)
-*/
-    const prodFiltrados = await filtrarProductos("programa");
-    mostrarProductosFiltrados(prodFiltrados);
-};
-
-if(arrayCompleto.length < 1){
-    btnProg.classList.add("selected-btn");
-    productosContainer.replaceChildren();
-/*
-    const titulo = document.createElement("h2")
-    titulo.textContent="Programas";
-    productosContainer.appendChild(titulo)
- */   
-    const prodFiltrados = await filtrarProductos("programa");
-    mostrarProductosFiltrados(prodFiltrados);
-}
-
-actualizarCarrito();
