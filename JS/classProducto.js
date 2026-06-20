@@ -24,7 +24,10 @@ export class classProducto {
         descripcionElement.textContent = this.descripcion;
 
         const imagenElement = document.createElement("img");
-        imagenElement.src = this.imagen;
+        imagenElement.src = this.imagen.startsWith("http") 
+                            ? this.imagen :
+                             `http://localhost:3000/imagenes/productos/${this.imagen}`;
+        console.log(this.imagen);
 
         const cantidadSeleccionada = carrito[this.id] || 0;
         const stockDisponible = this.stock - cantidadSeleccionada;

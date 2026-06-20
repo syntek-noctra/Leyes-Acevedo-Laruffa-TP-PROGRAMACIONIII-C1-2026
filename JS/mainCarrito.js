@@ -1,92 +1,116 @@
-import { obtenerDatosCarrito, sumarACarrito, actualizarCarrito } from "./mainProductos.js";
-
 const productosContainer = document.getElementById("carritoProductos");
+/* import { generarTicket } from "./ticket.js"; */
+const modalCompra = document.getElementById("modalCompra");
+const btnCancelarCompra = document.getElementById("btnCancelarCompra");
+const btnConfirmarCompra = document.getElementById("btnConfirmarCompra");
 
-async function cargarDatos(cantidadesLocalStorage) {
-    const ids = Object.keys(cantidadesLocalStorage);
-    const productos = await Promise.all(
-        ids.map(async id => {
-            const response = await fetch(`http://localhost:3000/producto/${id}`);
-            const producto = await response.json();
-            return { ...producto, cantidad: cantidadesLocalStorage[id] };
-        })
-    );
-    return productos;
-}
+// Traigo los datos de forma global en el carrito
+const cantidades = JSON.parse(  localStorage.getItem("carritoDeProductos") ) || {};    
+const datos = await cargarDatos(cantidades);
+let productosCompra = []
+productosCompra =  datos;
 
-function calcularSubTotal(arrayDeProductos) {
-    return arrayDeProductos.reduce((acc, producto) => acc + (producto.precio * producto.cantidad), 0);
-}
+async function mostrarProductosFiltrados( cantidadesLocalStorage ){
+    // OBTENER CANTIDADES DE LOS PRODUCTOS POR ID
+    
+    const cantidades = JSON.parse(  localStorage.getItem("carritoDeProductos") ) || {};    
 
-async function mostrarCarrito() {
-    const cantidades = obtenerDatosCarrito();
-    const datos = await cargarDatos(cantidades);
+    const datos= await cargarDatos(cantidades)
+    console.log("datos del fetch por id",datos)
+    console.log("cantidades local storage",cantidades)
 
-    productosContainer.replaceChildren();
+    const comprarButton = document.createElement("button");
+    comprarButton.textContent="COMPRAR";
+    comprarButton.addEventListener("click", () => { modalCompra.showModal(); });
+    btnCancelarCompra.addEventListener( "click", () => modalCompra.close() );
+    btnConfirmarCompra.addEventListener( "click", async () => { 
 
-    datos.forEach(producto => {
+        // const funcionPostParaEnviarTodaLaInforAlBackend= () => null;
+        modalCompra.close();
+        // const funcionTraerDatosDelBackendDespuesDelPost= () => null;
+        // const extraigoLosDatosDeLaVentaDeLaFuncion = funcionTraerDatosDelBackendDespuesDelPost();
+
+        generarTicket({ numeroVenta: 1, productos: datos, total: calcularSubTotal(productosCompra) });
+    });
+    
+    datos.forEach( producto => {
+        console.log(producto.agregado);
         const divAgrupadora = document.createElement("div");
         divAgrupadora.classList.add("producto-card-div");
 
-        const imagenElement = document.createElement("img");
-        imagenElement.src = producto.imagen;
+            const nombreElement = document.createElement("p");
+            nombreElement.textContent = producto.nombre;
 
-        const nombreElement = document.createElement("p");
-        nombreElement.textContent = producto.nombre;
+            const descripcionElement = document.createElement("p");
+            descripcionElement.textContent = producto.descripcion;
 
-        const descripcionElement = document.createElement("p");
-        descripcionElement.textContent = producto.descripcion;
+            const imagenElement = document.createElement("img");
+            imagenElement.src = producto.imagen;
+            const stockElement = document.createElement("p");
+            stockElement.textContent = "STOCK: " + producto.stock;
 
-        const cantidadElement = document.createElement("p");
-        cantidadElement.textContent = `Cantidad: ${cantidades[producto.id]}`;
+            const divBotonesCarrito = document.createElement("div");
+            divBotonesCarrito.classList.add("div-botones-carrito")
+            const botonSumar=document.createElement("button");
+            botonSumar.textContent="+";
+            const botonRestar = document.createElement("button");
+            botonRestar.textContent="-";
+            const cantidadElement = document.createElement("p");
+            cantidadElement.textContent = `${cantidades[producto.id]}`
+            const precioElement = document.createElement("p");
+            precioElement.textContent = `${[producto.precio]}`
+            
+               
+            divBotonesCarrito.append(botonRestar,botonSumar);
+        
+            divAgrupadora.append(
+            imagenElement,
+            nombreElement, 
+            descripcionElement,
+            cantidadElement,
+            precioElement,
+            ) 
+            productosContainer.appendChild(divAgrupadora)
 
-        const precioElement = document.createElement("p");
-        precioElement.textContent = `$${producto.precio}`;
 
-        const divBotonesCarrito = document.createElement("div");
-        divBotonesCarrito.classList.add("div-botones-carrito");
-
-        const botonSumar = document.createElement("button");
-        botonSumar.textContent = "+";
-
-        const botonRestar = document.createElement("button");
-        botonRestar.textContent = "-";
-
-        divBotonesCarrito.append(botonRestar, cantidadElement, botonSumar);
-
-        divAgrupadora.append(imagenElement, nombreElement, descripcionElement, precioElement, divBotonesCarrito);
-        productosContainer.appendChild(divAgrupadora);
-
-        botonSumar.addEventListener("click", () => {
-            const carritoActual = obtenerDatosCarrito();
-            if (carritoActual[producto.id] >= producto.stock) return;
-            sumarACarrito(producto);
-            mostrarCarrito(); // recargás el carrito
+            
         });
 
-        botonRestar.addEventListener("click", () => {
-            const carritoActual = obtenerDatosCarrito();
-            if (!carritoActual[producto.id]) return;
-            carritoActual[producto.id]--;
-            if (carritoActual[producto.id] <= 0) delete carritoActual[producto.id];
-            localStorage.setItem("carritoDeProductos", JSON.stringify(carritoActual));
-            actualizarCarrito();
-            mostrarCarrito();
-        });
-    });
-
-    const totalElement = document.createElement("p");
-    totalElement.textContent = `TOTAL: $${calcularSubTotal(datos)}`;
-    totalElement.classList.add("totalContent");
-    productosContainer.appendChild(totalElement);
-
-    // boton confirmar compra
-    const btnConfirmar = document.createElement("button");
-    btnConfirmar.textContent = "Confirmar compra";
-    btnConfirmar.addEventListener("click", () => {
-        window.location.href = "../HTML/ticket.html";
-    });
-    productosContainer.appendChild(btnConfirmar);
+        const totalElement = document.createElement("p");
+        totalElement.textContent = `$ ${calcularSubTotal(datos)}`;
+        totalElement.classList.add("totalContent");
+        productosContainer.appendChild(totalElement)
+        productosContainer.appendChild(comprarButton)
 }
 
-mostrarCarrito();
+const carrito = JSON.parse(localStorage.getItem("carritoDeProductos")) || [];
+
+async function cargarDatos(cantidadesLocalStorage) {
+
+    const ids = Object.keys(cantidadesLocalStorage);
+
+    const productos = await Promise.all(
+
+        ids.map(async id => {
+
+            const response = await fetch( `http://localhost:3000/producto/${id}` );
+
+            const producto = await response.json();
+
+            return { ...producto,  cantidad: cantidadesLocalStorage[id]
+            };
+        })
+
+    );
+
+    return productos;
+}
+
+function calcularSubTotal(arrayDeProductos){
+    const total = arrayDeProductos.reduce((acc, producto) => acc + (producto.precio * producto.cantidad), 0);
+    return total;
+    console.log("subtotal es",total);
+}
+
+
+mostrarProductosFiltrados(carrito)

@@ -32,6 +32,9 @@
                     <p>
                         <%= producto.descripcion %>
                     </p>
+                     <p>
+                        Stock:  <%= producto.stock %>
+                    </p>
                     <p>$<%= producto.precio %>
                     </p>
                     <p>Estado: <%=producto.activo ? "activo" : "Inactivo" %>
@@ -63,6 +66,9 @@
                     </h3>
                     <p>
                         <%= producto.descripcion %>
+                    </p>
+                     <p>
+                        <%= producto.stock %>
                     </p>
                     <p>$<%= producto.precio %>
                     </p>

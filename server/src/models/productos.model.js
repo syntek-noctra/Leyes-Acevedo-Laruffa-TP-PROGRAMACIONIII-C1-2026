@@ -33,6 +33,11 @@ const Producto=conexion.define("Producto",{
         type:DataTypes.BOOLEAN,
         defaultValue:true,
     },
+    stock: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+}
 })
 
 module.exports=Producto;
