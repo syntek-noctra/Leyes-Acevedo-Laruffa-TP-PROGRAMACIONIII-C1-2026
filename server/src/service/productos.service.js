@@ -1,4 +1,4 @@
-const Producto=require("../models/productos.model");
+const {Producto}=require("../relaciones/relaciones");
 
 const obtenerProductosDB=async(page=1,limit=6,tipo)=>{
     const offset=(page-1)*limit;
@@ -63,3 +63,5 @@ module.exports={
     crearProductosMasivoBD,
     buscarTodosProductosDB,
 }
+
+

@@ -21,6 +21,9 @@ const Admin=conexion.define("Admin",{
         allowNull:false,
     },
     
+},{
+    createdAt: false,
+    updatedAt: false,
 });
     
 

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/public/style.css">
+</head>
+
+<body>
+    <header>
+        <h1>G.R.I.D - Panel de Administración</h1>
+        <p>Leyes - Acevedo - Laruffa</p>
+    </header>
+    <main>
+        <div class="login-container">
+            <div class="campo">
+                <label for="correo">Correo Electronico</label>
+                <input type="text" id="correo" placeholder="Correo Electronico">
+            </div>
+
+            <div class="campo">
+                <label for="contraseña">Contraseña</label>
+                <input type="password" id="contraseña" placeholder="Contraseña">
+            </div>
+
+            <button onclick="iniciarSesion()" class="btn-login">Iniciar sesion</button>
+            <button onclick="autoCompletar()" class="btn-login">Auto completar</button>
+
+    </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+<script>
+
+    async function iniciarSesion() {
+        const inputCorreo = document.getElementById("correo");
+        const inputContraseña = document.getElementById("contraseña");
+        //podria poner localhost:3000 pero eso   es en caso de que sea un html estatitico  servido por liveserver.
+        const dataAdmin = await fetch("/admin/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                email: inputCorreo.value,
+                password: inputContraseña.value
+            })
+        }
+        )
+
+
+        if (dataAdmin.ok) {
+            window.location.href = "/admin/dashboard";
+        } else {
+            const error = await dataAdmin.json();
+            Swal.fire({
+                icon: "error",
+                title: "ERROR",
+                text: error.mensaje,
+                confirmButtonText: "ACEPTAR",
+                customClass: {
+                    popup: 'swal-popup',
+                    title: 'swal-title',
+                    htmlContainer: 'swal-text',
+                    confirmButton: 'swal-button'
+                }
+            });
+
+
+        }
+    }
+
+    function autoCompletar() {
+        const correo = document.getElementById("correo");
+        correo.value = "agustin.ejemplo@outlook.com"
+        const password = document.getElementById("contraseña");
+        password.value = 12345;
+
+    }
+
+</script>
+
+</html>

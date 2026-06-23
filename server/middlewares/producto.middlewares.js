@@ -13,12 +13,11 @@ const validarIDMW = (req, res, next) => {
 
 const validarProductoACrear = (req, res, next) => {
     const body = req.body;
-
     const productoValidador = z.object({
         nombre: z.string().min(2, "Nombre obligatorio con mas de 1 caracter."),
-        precio: z.coerce.number().int().positive("El precio debe ser mayor a 0"),
-        tipo: z.enum(["programa", "libreria"], { message: "El tipo debe ser programa o libreria" }),
-        descripcion: z.string().min(5, "La descripcion es obligatoria"),
+        precio: z.coerce.number().int().positive("El precio debe ser mayor a 0.,"),
+        tipo: z.enum(["programa", "libreria"], { message: "El tipo debe ser programa o libreria." }),
+        descripcion: z.string().min(5, "La descripcion es obligatoria."),
         stock: z.coerce.number().int().min(0,"Stock negativo no se permite.")
     });
 
@@ -46,8 +45,8 @@ const validarProductoModificado=(req,res,next)=>{
      const productoValidador = z.object({
         nombre: z.string().min(2, "Nombre obligatorio con mas de 1 caracter.").optional(),
         precio: z.coerce.number().int().positive("El precio debe ser mayor a 0").optional(),
-        tipo: z.enum(["programa", "libreria"], { message: "El tipo debe ser programa o libreria" }).optional(),
-        descripcion: z.string().min(5, "La descripcion es obligatoria").optional(),
+        tipo: z.enum(["programa", "libreria"], { message: "El tipo debe ser programa o libreria." }).optional(),
+        descripcion: z.string().min(5, "La descripcion es obligatoria.").optional(),
         stock: z.coerce.number().int().min(0,"Stock negativo no se permite.").optional(),
         activo: z.coerce.boolean().optional()
     });

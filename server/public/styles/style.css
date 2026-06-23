@@ -10,6 +10,7 @@ body {
     font-family: monospace;
 }
 
+html{ scroll-behavior: smooth;}
 /* HEADER */
 header {
     display: flex;
@@ -134,7 +135,7 @@ main h2 {
 }
 
 /* DESCARGAR EXCEL */
-main > a {
+#excel > a {
     display: inline-block;
     margin-top: 20px;
     padding: 10px 20px;
@@ -145,7 +146,7 @@ main > a {
     transition: all 0.2s ease;
 }
 
-main > a:hover {
+#excel > a:hover {
     background-color: #00ff88;
     color: black;
     box-shadow: 0 0 10px #00ff88;
@@ -225,4 +226,96 @@ button[type="submit"]:hover,
     background: #00ff88;
     color: black;
     box-shadow: 0 0 10px #00ff88;
+}
+
+.selected-btn {
+    background-color: #00ff88;
+    color: black;
+    text-shadow: 0 0 5px #00ff88, 0 0 10px #00ff88, 0 0 20px #00ff88;
+    box-shadow: 0 0 5px #00ff88, 0 0 15px #00ff88, 0 0 30px #00ff88;
+    border: 1px solid #00ff88;
+    transform: scale(1.02);
+    transition: all 0.2s ease;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 50px auto;
+
+    padding: 30px;
+
+    background: #111;
+    box-shadow: 0 0 10px rgba(0,255,136,0.2);
+}
+
+
+/* botones login*/
+
+.btn-login {
+    background: transparent;
+    border: 1px solid #00ff88;
+    color: #00ff88;
+    padding: 12px 25px;
+    font-family: monospace;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.btn-login:hover {
+    background: #00ff88;
+    color: black;
+    box-shadow:
+        0 0 5px #00ff88,
+        0 0 15px #00ff88,
+        0 0 25px #00ff88;
+    transform: translateY(-2px);
+}
+
+.btn-login:active {
+    transform: translateY(1px);
+}
+
+
+.swal-popup {
+    background: #111 !important;
+    border: 1px solid #00ff88 !important;
+    color: #f5f5f5 !important;
+    font-family: monospace !important;
+    box-shadow: 0 0 15px #00ff88 !important;
+}
+
+.swal-title {
+    color: #00ff88 !important;
+    letter-spacing: 2px;
+}
+
+.swal-text {
+    color: #8ac4a2 !important;
+}
+
+.swal-button {
+    background: transparent !important;
+    border: 1px solid #00ff88 !important;
+    color: #00ff88 !important;
+    font-family: monospace !important;
+    letter-spacing: 2px;
+}
+
+.swal-button:hover {
+    background: #00ff88 !important;
+    color: black !important;
+    box-shadow: 0 0 10px #00ff88 !important;
+}
+
+.swal2-icon.swal2-error {
+    border-color: #00ff88 !important;
+    color: #00ff88 !important;
+}
+
+.swal2-icon.swal2-error [class^='swal2-x-mark-line'] {
+    background-color: #00ff88 !important;
 }

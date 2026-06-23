@@ -1,12 +1,7 @@
-const {createAdminDB,findAdminsDB}=require("../service/admin.service");
+const {createAdminDB,findAdminsDB, buscarAdminPorEmailDB}=require("../service/admin.service");
 const { buscarTodosProductosDB, desactivarProductoDB, activarProductoBD, obtenerProductoPorIdBD } = require("../service/productos.service");
+const bcrypt=require("bcrypt");
 
-const createAdmin=async(req,res)=>{
-    const{nombre,email,password}=req.body;
-    const admin={nombre,email,password};
-    const adminCreado=await createAdminDB(admin);
-    res.send(adminCreado);
-};
 
 
 
@@ -54,4 +49,26 @@ const activarProductoAdmin=async(req,res)=>{
 }
 
 
-module.exports={createAdmin,findAdmins,dashBoardAdminEJS,desactivarProductoAdmin,activarProductoAdmin,crearProductoEJS,editarProductoEJS};
+const crearAdmin=async(req,res)=>{
+    const {nombre,email,contraseña}=req.body;
+    const admin=await createAdminDB({nombre,email,contraseña});
+    res.send(admin);
+
+}
+
+const loginAdmin=async(req,res)=>{
+    const {email,password}=req.body;
+    const admin=await buscarAdminPorEmailDB(email);
+    if (!admin) return res.status(401).send({ mensaje: "Email incorrecto" });
+    const passwordCorrecta = await bcrypt.compare(password, admin.password);
+    if (!passwordCorrecta) return res.status(401).send({ mensaje: "Contraseña incorrecta" });
+    res.send({ ok: true });
+
+}
+
+
+
+const loginAdminEJS=async(req,res)=>{
+    res.render("loginAdmin");
+}
+module.exports={findAdmins,dashBoardAdminEJS,desactivarProductoAdmin,activarProductoAdmin,crearProductoEJS,editarProductoEJS,crearAdmin,loginAdmin,loginAdminEJS};

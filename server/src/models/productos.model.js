@@ -38,6 +38,9 @@ const Producto=conexion.define("Producto",{
     allowNull: false,
     defaultValue: 0,
 }
+},{
+    createdAt: false,
+    updatedAt: false,
 })
 
 module.exports=Producto;

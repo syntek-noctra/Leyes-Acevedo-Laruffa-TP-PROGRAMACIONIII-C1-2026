@@ -14,7 +14,7 @@
         <p>Leyes - Acevedo - Laruffa</p>
         <nav>
             <a href="/admin/dashboard">Dashboard</a>
-            <a href="/admin/producto/nuevo">Agregar Producto</a>
+            <a href="/admin/producto/nuevo" id="btnAgregar">Agregar Producto</a>
         </nav>
     </header>
 
@@ -34,7 +34,7 @@
             <input type="number" id="precio" placeholder="Precio del producto">
         </div>
 
-        
+
         <div class="campo">
             <label for="stock">Stock</label>
             <input type="number" id="stock" placeholder="Stock del producto">
@@ -55,8 +55,10 @@
 
         <button onclick="crearProducto()">Agregar Producto</button>
     </main>
-
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        const btnAgregar = document.getElementById("btnAgregar");
+        btnAgregar.classList.add("selected-btn");
         async function crearProducto() {
             const formData = new FormData();
             formData.append("nombre", document.getElementById("nombre").value);
@@ -65,19 +67,32 @@
             formData.append("stock", document.getElementById("stock").value);
             formData.append("tipo", document.getElementById("tipo").value);
             formData.append("imagenProducto", document.getElementById("imagen").files[0]);
-         
+
             const respuesta = await fetch("/producto", {
                 method: "POST",
                 body: formData,
 
             })
 
-            if(respuesta.ok){
-    window.location.href = "/admin/dashboard";
-} else {
-    const error = await respuesta.json();
-    console.log(error.errores[0].message); // mostrás los errores de Zod
-}
+            if (respuesta.ok) {
+                window.location.href = "/admin/dashboard";
+            } else {
+                
+                const error = await respuesta.json();
+                const mensajes = error.errores.map(e => e.message).join("<br>");
+               Swal.fire({
+                icon: "error",
+                title: "ERROR",
+                html: mensajes,
+                confirmButtonText: "ACEPTAR",
+                customClass: {
+                    popup: 'swal-popup',
+                    title: 'swal-title',
+                    htmlContainer: 'swal-text',
+                    confirmButton: 'swal-button'
+                }
+            });
+            }
         }
 
     </script>
