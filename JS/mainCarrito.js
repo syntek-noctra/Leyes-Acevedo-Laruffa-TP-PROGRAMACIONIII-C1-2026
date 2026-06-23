@@ -3,12 +3,33 @@ import { generarTicket } from "./ticket.js";
 const modalCompra = document.getElementById("modalCompra");
 const btnCancelarCompra = document.getElementById("btnCancelarCompra");
 const btnConfirmarCompra = document.getElementById("btnConfirmarCompra");
+const carritoCompras = document.getElementById("cantidad-carrito");
+const totalElement = document.createElement("p");
 
 // Traigo los datos de forma global en el carrito
 const cantidades = JSON.parse(  localStorage.getItem("carritoDeProductos") ) || {};    
 const datos = await cargarDatos(cantidades);
 let productosCompra = []
 productosCompra =  datos;
+
+function obtenerDatosCarrito() {
+    return JSON.parse(localStorage.getItem("carritoDeProductos")) || {};
+}
+
+function actualizarCarrito() {
+    carritoCompras.replaceChildren();
+    const carrito = obtenerDatosCarrito();
+    const total = Object.values(carrito).reduce((acc, cantidad) => acc + cantidad, 0);
+    carritoCompras.append(total);
+}
+
+function sumarACarrito(producto) {
+    const carrito = obtenerDatosCarrito();
+    carrito[producto.id] = (carrito[producto.id] || 0) + 1;
+    localStorage.setItem("carritoDeProductos", JSON.stringify(carrito));
+    actualizarCarrito();
+    return carrito[producto.id];
+}
 
 async function mostrarProductosFiltrados( cantidadesLocalStorage ){
     // OBTENER CANTIDADES DE LOS PRODUCTOS POR ID
@@ -26,6 +47,8 @@ async function mostrarProductosFiltrados( cantidadesLocalStorage ){
     btnConfirmarCompra.addEventListener( "click", async () => { 
 
         // const funcionPostParaEnviarTodaLaInforAlBackend= () => null;
+        // ACA EN EL POST ENVIAMOS LA INFO DE DATOS O TODA LA DATA DEL CARRITO (NOMBRE USUARIO, ID DE CADA PRODUCTO Y CANTIDAD)
+        // SE GENERA UNA ORDEN DE VENTA, EN ESTA MISMA LA RESPUESTA ES OK CON LA INFO DEL ID, PRODS, ETC O ERROR 
         modalCompra.close();
         // const funcionTraerDatosDelBackendDespuesDelPost= () => null;
         // const extraigoLosDatosDeLaVentaDeLaFuncion = funcionTraerDatosDelBackendDespuesDelPost();
@@ -33,6 +56,9 @@ async function mostrarProductosFiltrados( cantidadesLocalStorage ){
         generarTicket({ numeroVenta: 1, productos: datos, total: calcularSubTotal(productosCompra) });
     });
     
+    if(datos.length < 1) {
+        return productosContainer.replaceChildren("Sin productos agregados al carrito")
+    }
     datos.forEach( producto => {
         console.log(producto.agregado);
         const divAgrupadora = document.createElement("div");
@@ -59,21 +85,120 @@ async function mostrarProductosFiltrados( cantidadesLocalStorage ){
             cantidadElement.textContent = `${cantidades[producto.id]}`
             const precioElement = document.createElement("p");
             precioElement.textContent = `${[producto.precio]}`
+            const deleteProductoButton = document.createElement("button");
+            deleteProductoButton.textContent = "X";
+        
             
                
-            divBotonesCarrito.append(botonRestar,botonSumar);
+            divBotonesCarrito.append(botonRestar,cantidadElement,botonSumar);
         
             divAgrupadora.append(
             imagenElement,
             nombreElement, 
             descripcionElement,
-            cantidadElement,
-            precioElement,
+            divBotonesCarrito,
+            precioElement            
             ) 
             productosContainer.appendChild(divAgrupadora)
+            productosContainer.appendChild(deleteProductoButton)
 
+            function actualizarVista() {
+                const carritoActual = obtenerDatosCarrito();
+                const cantidadActual = carritoActual[producto.id] || 0;
+                cantidadElement.textContent = cantidadActual;
+                stockElement.textContent = "STOCK: " + (producto.stock - cantidadActual);
+                // DEBERIA MOSTRAR ESTE MSJ SI NO HAY PRODUCTOS
+                if(carritoActual.length < 1) return productosContainer.replaceChildren("No hay productos seleccionados en el carrito");
+                if (cantidadActual > 0) {
+                    if (!divBotonesCarrito.isConnected) {
+                        divAgrupadora.append(divBotonesCarrito);
+                    }
+                    divAgrupadora.classList.add("card-seleccionada");
+                } else {
+                    if(carritoActual.length < 1) return productosContainer.replaceChildren("No hay productos seleccionados en el carrito");
+                    divAgrupadora.remove();
+                    divBotonesCarrito.remove();
+                    deleteProductoButton.remove();
+                    divAgrupadora.classList.remove("card-seleccionada");
+                }
+            }
 
-            
+            function agregarProducto() {
+                const carritoActual = obtenerDatosCarrito();
+                const cantidadActual = carritoActual[producto.id] || 0;
+                if (cantidadActual >= producto.stock) return;
+                sumarACarrito(producto);
+                actualizarVista();
+                actualizarCarrito();
+            }
+
+            function restarProducto() {
+                const carritoActual = obtenerDatosCarrito();
+                if (!carritoActual[producto.id]) return;
+                carritoActual[producto.id]--;
+                if (carritoActual[producto.id] <= 0){
+                    console.log("carrito despues de quedar en 0")
+                    delete carritoActual[producto.id];
+                    actualizarCarrito();
+                    actualizarVista();
+                    console.log("carrito actualmente tiene estas cantidades y prods", carritoActual)
+                }
+                localStorage.setItem("carritoDeProductos", JSON.stringify(carritoActual));
+                
+                actualizarCarrito();
+                actualizarSubtotal(datos)
+                actualizarVista();
+            }
+            function actualizarSubtotal(datos) {
+
+                const carrito = obtenerDatosCarrito();
+
+                const total = datos.reduce((acc, producto) => {
+
+                    const cantidad = carrito[producto.id] || 0;
+
+                    return acc + (producto.precio * cantidad);
+
+                }, 0);
+
+                totalElement.textContent = `$ ${total}`;
+            }
+
+            botonSumar.addEventListener("click", () => {
+                const carritoActual = obtenerDatosCarrito();
+                const cantidadActual = carritoActual[producto.id] || 0;
+                if (cantidadActual >= producto.stock) return;
+                sumarACarrito(producto);
+                actualizarVista();
+            });
+            botonRestar.addEventListener("click", restarProducto);
+
+            deleteProductoButton.addEventListener("click", () => {
+
+                const carritoActual = obtenerDatosCarrito();
+
+                delete carritoActual[producto.id];
+
+                localStorage.setItem(
+                    "carritoDeProductos",
+                    JSON.stringify(carritoActual)
+                );
+
+                divAgrupadora.remove();
+                deleteProductoButton.remove();
+
+                actualizarCarrito();
+                actualizarSubtotal(datos);
+
+                if (Object.keys(carritoActual).length === 0) {
+
+                    productosContainer.replaceChildren(
+                        "No hay productos seleccionados en el carrito"
+                    );
+                }
+
+            });
+        actualizarVista();
         });
 
         const totalElement = document.createElement("p");

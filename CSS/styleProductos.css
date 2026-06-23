@@ -155,12 +155,12 @@ main {
     display: flex;
     justify-content: space-between;
     gap: 10px;
-    width:80%;
+    width:20%;
     margin: 0 auto;
 }
 
 .div-botones-carrito > button{
-    width: 30%;
+    width: 10%;
     background-color: #0f1116;
     color: var(--white-GRID-color);
     font-weight: 900;

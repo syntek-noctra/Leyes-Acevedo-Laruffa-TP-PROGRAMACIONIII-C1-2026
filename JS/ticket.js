@@ -34,12 +34,9 @@ export function generarTicket({ numeroVenta, productos, total }) {
 
     productos.forEach(prod => {
 
-        const subtotal =
-            prod.precio * prod.cantidad;
-
         doc.text(`${prod.nombre} x${prod.cantidad}`,20, y);
 
-        doc.text( `$${subtotal}`, 150, y );
+        doc.text( `$${prod.precio}`, 150, y );
 
         y += 10;
     });
