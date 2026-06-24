@@ -1,5 +1,18 @@
 export class classProducto {
-    constructor({ id, nombre, descripcion, imagen, precio, tipo, stock, activo, agregado, createdAt, updatedAt }) {
+
+    constructor({
+    id,
+    nombre,
+    descripcion,
+    imagen,
+    precio,
+    tipo,
+    stock,
+    activo,
+    agregado,
+    createdAt,
+    updatedAt,
+    }) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;

@@ -1,5 +1,5 @@
 const productosContainer = document.getElementById("carritoProductos");
-/* import { generarTicket } from "./ticket.js"; */
+import { generarTicket } from "./ticket.js";
 const modalCompra = document.getElementById("modalCompra");
 const btnCancelarCompra = document.getElementById("btnCancelarCompra");
 const btnConfirmarCompra = document.getElementById("btnConfirmarCompra");
@@ -113,4 +113,4 @@ function calcularSubTotal(arrayDeProductos){
 }
 
 
-mostrarProductosFiltrados(carrito)
+mostrarProductosFiltrados(carrito);
