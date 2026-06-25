@@ -5,3 +5,12 @@
     --active-green-GRID-color: #5aef6a;
 }
 
+
+/* Tema claro */
+[data-theme="claro"] {
+    --bg-color: #f5f5f5;
+    --text-color: #0f1116;
+    --accent-color: #008844;
+    --card-bg: #ffffff;
+    --border-color: #008844;
+}

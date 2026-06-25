@@ -3,6 +3,7 @@ const cors = require("cors");
 const adminRouter=require("./routes/admin.routes");
 const productoRouter=require("./routes/producto.routes")
 const conexion=require("./db/sequelize");
+const ventaRouter = require("./routes/ventas.routes");
 
 const app=express();
 app.use(cors());
@@ -20,6 +21,8 @@ app.set("views","./vistas");
 app.use("/admin",adminRouter);
 
 app.use("/producto",productoRouter);
+
+app.use("/venta",ventaRouter);
 
 
 

@@ -47,7 +47,7 @@
                         <a href="/admin/editar/<%= producto.id%>">Editar</a>
                         <% if(producto.activo) {%>
                             <!-- va sin igual porque solo quiero verificar el valor no mostrarlo.-->
-                            <a href="/admin/producto/desactivar/<%=producto.id%>">Desactivar</a>
+                            <a id="buttonConfirmar" onclick="confirmarDesactivar(<%= producto.id %>)">Desactivar</a>
                             <% }else{ %>
                                 <a href="/admin/producto/activar/<%= producto.id %>">activar</a>
                                 <% } %>
@@ -96,9 +96,32 @@
             <a href="/admin/ventas/excel">Descargar ventas en Excel</a>
         </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         const btnDashboard = document.getElementById("btnDashboard");
         btnDashboard.classList.add("selected-btn");
+        async function confirmarDesactivar(id){
+
+
+            const resultado= await Swal.fire({
+                icon: "stop",
+                title: "Confirmacion....",
+                text:"¿Desea confimar la desactivacion del producto?" ,
+                confirmButtonText: "ACEPTAR",
+                customClass: {
+                    popup: 'swal-popup',
+                    title: 'swal-title',
+                    htmlContainer: 'swal-text',
+                    confirmButton: 'swal-button'
+                }
+            });
+
+            if(resultado.isConfirmed){
+                window.location.href=`/admin/producto/desactivar/${id}`;
+            }
+        }
+
+        
     </script>
 </body>
 

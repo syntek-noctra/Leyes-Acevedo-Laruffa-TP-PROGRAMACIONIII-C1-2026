@@ -15,8 +15,6 @@ const iconImg = document.getElementById("logo");
 const btnAnterior = document.getElementById("btn-anterior");
 const btnSiguiente = document.getElementById("btn-siguiente");
 const carritoCompras = document.getElementById("cantidad-carrito");
-const iconImg=document.getElementById("logo");
-const carritoCompras=document.getElementById("cantidad-carrito");
 const productosAgregados = [];
 
 // VARIABLES GLOBALES

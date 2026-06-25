@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" sizes="32x32" href="/IMAGES/favicon.png">
@@ -8,7 +9,12 @@
 
 
     <title>In the G.R.I.D</title>
+    <script>
+          const temaGuardado = localStorage.getItem("tema") || "oscuro";
+        document.documentElement.setAttribute("data-theme", temaGuardado);
+    </script>
 </head>
+
 <body>
     <header class="header">
         <div>
@@ -27,13 +33,14 @@
 
         <img id="logo" src="/IMAGES/logo G.R.I.D.png" height=150px width=150px>
         <div id="cantidad-carrito-container">
-    <a href="../HTML/carrito.html">
-        🛒 <span id="cantidad-carrito">0</span>
-    </a>
-</div>
+            <a href="../HTML/carrito.html">
+                🛒 <span id="cantidad-carrito">0</span>
+            </a>
+        </div>
 
-        <div >
-            <pre class="boton-ascii" id="btn-librerias"> ▄            ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄   ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄ 
+        <div>
+            <pre class="boton-ascii"
+                id="btn-librerias"> ▄            ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄   ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄ 
 ▐░▌          ▐░░░░░░░░░░░▌▐░░░░░░░░░░▌ ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌
 ▐░▌           ▀▀▀▀█░█▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌ ▀▀▀▀█░█▀▀▀▀ ▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀▀▀▀▀ 
 ▐░▌               ▐░▌     ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌     ▐░▌     ▐░▌          ▐░▌          
@@ -46,8 +53,8 @@
  ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀   ▀         ▀  ▀         ▀  ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀ </pre>
         </div>
     </header>
-    
-        <pre class="brujulas-ascii" id="brujula-ascii-1">                           |                            
+
+    <pre class="brujulas-ascii" id="brujula-ascii-1">                           |                            
                            |                            
                                                         
                            $                            
@@ -73,7 +80,7 @@
                            |                            
                            |
 </pre>
-<pre class="brujulas-ascii" id="brujula-ascii-2">                           |                            
+    <pre class="brujulas-ascii" id="brujula-ascii-2">                           |                            
                            |                            
                                                         
                            $                            
@@ -105,26 +112,43 @@
     <main>
         <section id="productos" class="principal-productos">
         </section>
-       
+
         <img class="aside-simbols" id="aside-simbols-left" src="/IMAGES/Asides_Products_G.R.I.D.png">
         <img class="aside-simbols" id="aside-simbols-right" src="/IMAGES/Asides_Products_G.R.I.D.png">
         <a class="carrito-icono" id="carrito-icono" href="./carrito.html">
-            <img  src="/Assets/carrito-de-compras.png">
+            <img src="/Assets/carrito-de-compras.png">
             <p class="texto-carrito" id="cantidad-carrito">0</p>
         </a>
 
     </main>
-     <div id="paginacion">
-    <button id="btn-anterior">Anterior</button>
-    <span id="info-pagina">Página 1 de 1</span>
-    <button id="btn-siguiente">Siguiente</button>
-</div>
+    <div id="paginacion">
+        <button id="btn-anterior">Anterior</button>
+        <span id="info-pagina">Página 1 de 1</span>
+        <button id="btn-siguiente">Siguiente</button>
+    </div>
     <footer class="grid-footer">
-    <p>LUCAS LARUFFA // FACUNDO ACEVEDO // AGUSTIN LEYES</p>
-</footer>
-<script type="module"  src="/JS/classProducto.js"></script>
-   <script type="module" src="/JS/mainProductos.js"></script>
+        <p>LUCAS LARUFFA // FACUNDO ACEVEDO // AGUSTIN LEYES</p>
+    </footer>
+    <button onclick="cambiarTema()">BOTON CLARO Y OSCURO</button>
 
 
+    <script>
+        function cambiarTema(){
+            const html=document.querySelector("html");
+
+            const temaActual=html.getAttribute("data-theme");
+
+            if(temaActual === "claro"){
+                html.setAttribute("data-theme","oscuro");
+                localStorage.setItem("tema","oscuro");
+            }else{
+                html.setAttribute("data-theme","claro");
+                localStorage.setItem("tema","claro");
+            }
+        }
+    </script>
+    <script type="module" src="/JS/classProducto.js"></script>
+    <script type="module" src="/JS/mainProductos.js"></script>
 </body>
+
 </html>
