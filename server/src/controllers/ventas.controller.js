@@ -2,11 +2,18 @@ const { crearVentaDB, obtenerVentasDB, obtenerVentaPorIdDB } = require("../servi
 
 //ACA FALTA VALIDADOR PODRIA SER UN MIDDLEWARE o simplmente lo ponemos aca la validacion se puede charalar.
 const crearVenta=async(req,res)=>{
+    try{
     const {nombreUsuario,productos,total}=req.body;
 
     const nuevaVenta=await crearVentaDB({nombreUsuario,precioTotal:total,productos});
     
     res.status(200).send({ok:true,ventaId:nuevaVenta.id});
+    }catch(error){
+        if(error.message.includes('Stock insuficente')){
+           return res.status(400).send({ok: false, message: error.message});
+        }
+        res.status(500).send({ok: false, message: error.message});
+    }
 
 };
 
