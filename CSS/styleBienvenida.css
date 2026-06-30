@@ -64,7 +64,6 @@ main {
 
 }
 
-/*====CUSTOMIZACIÓN DE FORMULARIO====*/
 .user-form{
     margin-top: 0;
       margin-bottom: 250px;
@@ -179,6 +178,28 @@ label{
     padding-top: 10px;
 }
 
+#btnAdmin {
+    background-color: var(--black-GRID-color);
+    color: var(--green-GRID-color);
+    font-weight: 900;
+    width: 370px;
+    height: 50px;
+    border: 2px solid var(--green-GRID-color);
+    font-family: monospace;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#btnAdmin:hover {
+    background-color: var(--green-GRID-color);
+    color: black;
+    box-shadow: 0 0 5px #00ff88, 0 0 15px #00ff88;
+}
+
+#btnAdmin:active {
+    transform: translateY(3px) scale(0.97);
+}
 
 /*==================================*/
 
