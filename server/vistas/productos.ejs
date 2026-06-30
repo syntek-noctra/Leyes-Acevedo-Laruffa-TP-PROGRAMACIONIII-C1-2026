@@ -14,7 +14,8 @@
         <h1>G.R.I.D - Panel de Administración</h1>
         <p>Leyes - Acevedo - Laruffa</p>
         <nav>
-            <a href="/admin/dashboard">Dashboard</a>
+            <a href="#excel">Ir a Excel</a>
+            <a href="/admin/dashboard" id="btnDashboard">Dashboard</a>
             <a href="/admin/productoNuevo">Agregar Producto</a>
         </nav>
     </header>
@@ -24,13 +25,17 @@
         <div class="productos-grid">
             <%productos.filter(p=>p.tipo ==="programa").forEach(producto=>{%>
                 <div class="producto-card <%= producto.activo ? '':'inactivo' %>">
-                    <img src="<%= producto.imagen.startsWith('http') ? producto.imagen : '/imagenes/productos/' + producto.imagen %>">
+                    <img
+                        src="<%= producto.imagen.startsWith('http') ? producto.imagen : '/imagenes/productos/' + producto.imagen %>">
                     <!--<img src=""< producto.imagen>">-->
                     <h3>
                         <%= producto.nombre %>
                     </h3>
                     <p>
                         <%= producto.descripcion %>
+                    </p>
+                    <p>
+                        Stock: <%= producto.stock %>
                     </p>
                     <p>$<%= producto.precio %>
                     </p>
@@ -42,7 +47,7 @@
                         <a href="/admin/editar/<%= producto.id%>">Editar</a>
                         <% if(producto.activo) {%>
                             <!-- va sin igual porque solo quiero verificar el valor no mostrarlo.-->
-                            <a href="/admin/producto/desactivar/<%=producto.id%>">Desactivar</a>
+                            <a id="buttonConfirmar" onclick="confirmarDesactivar(<%= producto.id %>)">Desactivar</a>
                             <% }else{ %>
                                 <a href="/admin/producto/activar/<%= producto.id %>">activar</a>
                                 <% } %>
@@ -56,13 +61,17 @@
         <div class="productos-grid">
             <%productos.filter(p=>p.tipo ==="libreria").forEach(producto=>{%>
                 <div class="producto-card <%= producto.activo ? '':'inactivo' %>">
-                    <img src="<%= producto.imagen.startsWith('http') ? producto.imagen : '/imagenes/productos/' + producto.imagen %>">
+                    <img
+                        src="<%= producto.imagen.startsWith('http') ? producto.imagen : '/imagenes/productos/' + producto.imagen %>">
                     <!--<img src=""< producto.imagen>">-->
                     <h3>
                         <%= producto.nombre %>
                     </h3>
                     <p>
                         <%= producto.descripcion %>
+                    </p>
+                    <p>
+                        <%= producto.stock %>
                     </p>
                     <p>$<%= producto.precio %>
                     </p>
@@ -83,8 +92,37 @@
                 <% }) %>
         </div>
 
-        <a href="/admin/ventas/excel">Descargar ventas en Excel</a>
+        <div id="excel">
+            <a href="/admin/ventas/excel">Descargar ventas en Excel</a>
+        </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        const btnDashboard = document.getElementById("btnDashboard");
+        btnDashboard.classList.add("selected-btn");
+        async function confirmarDesactivar(id){
+
+
+            const resultado= await Swal.fire({
+                icon: "stop",
+                title: "Confirmacion....",
+                text:"¿Desea confimar la desactivacion del producto?" ,
+                confirmButtonText: "ACEPTAR",
+                customClass: {
+                    popup: 'swal-popup',
+                    title: 'swal-title',
+                    htmlContainer: 'swal-text',
+                    confirmButton: 'swal-button'
+                }
+            });
+
+            if(resultado.isConfirmed){
+                window.location.href=`/admin/producto/desactivar/${id}`;
+            }
+        }
+
+        
+    </script>
 </body>
 
 </html>

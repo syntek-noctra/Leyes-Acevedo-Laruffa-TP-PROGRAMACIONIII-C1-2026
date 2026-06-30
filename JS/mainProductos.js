@@ -72,7 +72,6 @@ async function cargarDatos() {
 // MOSTRAR PRODUCTOS CON CARRITO
 export async function mostrarProductosFiltrados(arrayProductosFiltrados) {
     const carrito = obtenerDatosCarrito();
-
     arrayProductosFiltrados.forEach(prod => {
         const nuevoProdcuto = new classProducto({ ...prod });
 

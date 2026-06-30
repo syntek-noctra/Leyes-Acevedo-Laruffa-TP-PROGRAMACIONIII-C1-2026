@@ -14,7 +14,7 @@
         <p>Leyes - Acevedo - Laruffa</p>
         <nav>
             <a href="/admin/dashboard">Dashboard</a>
-            <a href="/admin/producto/nuevo">Agregar Producto</a>
+            <a href="/admin/productoNuevo">Agregar Producto</a>
         </nav>
     </header>
 
@@ -32,6 +32,11 @@
         <div class="campo">
             <label for="precio">Precio</label>
             <input type="number" id="precio" placeholder="Precio del producto" value="<%= producto.precio %>">
+        </div>
+
+        <div class="campo">
+            <label for="stock">Stock</label>
+            <input type="number" id="stock" placeholder="Stock del producto" value="<%= producto.stock %>">
         </div>
 
         <div class="campo">
@@ -61,11 +66,13 @@
             const nombre = document.getElementById("nombre").value;
             const descripcion = document.getElementById("descripcion").value;
             const precio = document.getElementById("precio").value;
+            const stock = document.getElementById("stock").value;
             const tipo = document.getElementById("tipo").value;
 
             if (nombre) formData.append("nombre", nombre);
             if (descripcion) formData.append("descripcion", descripcion);
             if (precio) formData.append("precio", precio);
+            if (stock) formData.append("stock", stock);
             if (tipo) formData.append("tipo", tipo);
 
             const imagen = document.getElementById("imagen").files[0];
@@ -79,6 +86,22 @@
 
             if (respuesta.ok) {
                 window.location.href = "/admin/dashboard";
+            } else {
+                const error = await respuesta.json();
+                Swal.fire({
+                    icon: "error",
+                    title: "ERROR",
+                    html: error.errores
+                        ? error.errores.map(e => e.message).join("<br>")
+                        : error.mensaje,
+                    confirmButtonText: "ACEPTAR",
+                    customClass: {
+                        popup: 'swal-popup',
+                        title: 'swal-title',
+                        htmlContainer: 'swal-text',
+                        confirmButton: 'swal-button'
+                    }
+                });
             }
         }
 

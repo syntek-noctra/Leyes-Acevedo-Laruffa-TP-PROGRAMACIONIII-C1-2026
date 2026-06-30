@@ -29,7 +29,7 @@ const modificarProducto = async (req, res) => {
     const id = req.params.id;
     const datos = { ...req.body }; // esto lo hago asi porque si en modificar desde el frontend me mandan solamente 2 parametros por ejempllo -> modifico solo precio y nombre
     //entonces me toma literal solo es 2 parametros ,si pusiera todos los parametros y pase undefined me rompe la base, ademas lo hago asi porque nose que datos me va a modifciar.
-
+    console.log(datos.stock ,"--------------------------AAAAAAAAAAAAAAAAAAAAAA");
 
     if (req.file) {
         datos.imagen = req.file.filename;
@@ -64,9 +64,14 @@ const deleteProductos = async (req, res) => {
 }
 
 const crearProducto = async (req, res) => {
-    const { nombre, precio, tipo, descripcion } = req.body;
+    const { nombre, precio, tipo, descripcion,stock} = req.body;
     const imagen = req.file.filename;
+<<<<<<< HEAD
     const productoCreado = await crearProductoBD({ nombre, precio, imagen, tipo, descripcion })
+=======
+    console.log(stock,"CREAAAAAAAAAAAAAAAAAAAAAAAAR");
+    const productoCreado = await crearProductoBD({ nombre, precio, imagen, tipo, descripcion,stock });
+>>>>>>> origin/main
     res.send(productoCreado);
 }
 

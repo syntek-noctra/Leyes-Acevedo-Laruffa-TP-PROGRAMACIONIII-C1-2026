@@ -13,13 +13,12 @@ const validarIDMW = (req, res, next) => {
 
 const validarProductoACrear = (req, res, next) => {
     const body = req.body;
-
     const productoValidador = z.object({
         nombre: z.string().min(2, "Nombre obligatorio con mas de 1 caracter."),
-        precio: z.coerce.number().int().positive("El precio debe ser mayor a 0"),
-        tipo: z.enum(["programa", "libreria"], { message: "El tipo debe ser programa o libreria" }),
-        descripcion: z.string().min(5, "La descripcion es obligatoria"),
-
+        precio: z.coerce.number().int().positive("El precio debe ser mayor a 0.,"),
+        tipo: z.enum(["programa", "libreria"], { message: "El tipo debe ser programa o libreria." }),
+        descripcion: z.string().min(5, "La descripcion es obligatoria."),
+        stock: z.coerce.number().int().min(0,"Stock negativo no se permite.")
     });
 
     const resultado = productoValidador.safeParse({
@@ -27,6 +26,7 @@ const validarProductoACrear = (req, res, next) => {
         precio: body.precio,
         tipo: body.tipo,
         descripcion: body.descripcion,
+        stock:body.stock,
     });
 
     if (!resultado.success) {
@@ -34,7 +34,7 @@ const validarProductoACrear = (req, res, next) => {
     }
 
     req.body=resultado.data;
-    next()
+    next();
 
 
 };
@@ -45,8 +45,9 @@ const validarProductoModificado=(req,res,next)=>{
      const productoValidador = z.object({
         nombre: z.string().min(2, "Nombre obligatorio con mas de 1 caracter.").optional(),
         precio: z.coerce.number().int().positive("El precio debe ser mayor a 0").optional(),
-        tipo: z.enum(["programa", "libreria"], { message: "El tipo debe ser programa o libreria" }).optional(),
-        descripcion: z.string().min(5, "La descripcion es obligatoria").optional(),
+        tipo: z.enum(["programa", "libreria"], { message: "El tipo debe ser programa o libreria." }).optional(),
+        descripcion: z.string().min(5, "La descripcion es obligatoria.").optional(),
+        stock: z.coerce.number().int().min(0,"Stock negativo no se permite.").optional(),
         activo: z.coerce.boolean().optional()
     });
 
@@ -56,13 +57,14 @@ const validarProductoModificado=(req,res,next)=>{
         tipo:body.tipo,
         descripcion:body.descripcion,
         activo:body.activo,
+        stock:body.stock,
     })    // aca podria poner productoValidador.safeParse(req.body)  ,pero lo dejo asi para entenderlo de mejor manera.
     if (!resultado.success) {
         return res.status(400).send({errores: resultado.error.errors});
     }
 
     req.body=resultado.data;
-    next()
+    next();
 };
 
 

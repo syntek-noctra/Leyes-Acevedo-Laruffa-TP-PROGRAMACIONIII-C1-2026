@@ -1,8 +1,10 @@
-const Producto=require("../models/productos.model");
-
+const {Producto}=require("../relaciones/relaciones");
+const { Op } = require('sequelize');
 const obtenerProductosDB=async(page=1,limit=6,tipo)=>{
     const offset=(page-1)*limit;
-    const where={activo:true};
+    const where={activo:true,
+         stock: { [Op.gt]: 0},
+    };
     if(tipo)where.tipo=tipo;
     return await Producto.findAndCountAll({
         where,
@@ -63,3 +65,5 @@ module.exports={
     crearProductosMasivoBD,
     buscarTodosProductosDB,
 }
+
+
