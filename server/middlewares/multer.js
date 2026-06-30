@@ -8,7 +8,7 @@ const middlewareMulter=multer({dest:"imagenes/productos/",
     fileSize:1024*1024*2,
 },
 fileFilter:(re,file,callback)=>{
-    const tipoPermitidos=["png","jpg"];
+const tipoPermitidos = ["png", "jpg", "jpeg", "webp"]
     // [tipo]/[subtipo]
     const tipo=file.mimetype.split("/")[1];
 

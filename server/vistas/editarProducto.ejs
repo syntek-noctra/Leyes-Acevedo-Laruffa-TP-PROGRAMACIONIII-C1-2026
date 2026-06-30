@@ -55,7 +55,7 @@
 
         <button onclick="modificarProducto()">Editar Producto</button>
     </main>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
 
         async function modificarProducto() {
@@ -83,11 +83,14 @@
                 body: formData,
             });
 
+             
+
 
             if (respuesta.ok) {
                 window.location.href = "/admin/dashboard";
             } else {
                 const error = await respuesta.json();
+                console.log(error);
                 Swal.fire({
                     icon: "error",
                     title: "ERROR",

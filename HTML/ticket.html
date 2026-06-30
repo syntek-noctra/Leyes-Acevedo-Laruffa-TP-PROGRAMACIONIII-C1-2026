@@ -1,12 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" sizes="32x32" href="/IMAGES/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Ticket - G.R.I.D</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/3.0.3/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="/CSS/styleTicket.css">
 </head>
+
 <body>
-    
+
+    <main class="ticket-container">
+
+        <header class="ticket-header">
+            <img src="/IMAGES/logo G.R.I.D.png" alt="Logo" width="120">
+
+            <h1>G.R.I.D STORE</h1>
+            <p>Ticket de Compra</p>
+        </header>
+
+        <section class="ticket-info">
+
+            <p><strong>Cliente:</strong> <span id="nombreCliente"></span></p>
+
+            <p><strong>Fecha:</strong> <span id="fechaCompra"></span></p>
+
+            <p><strong>N° Venta:</strong> <span id="numeroVenta"></span></p>
+
+        </section>
+
+        <section>
+
+            <table class="tabla-ticket">
+
+                <thead>
+
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cant.</th>
+                        <th>Precio</th>
+                        <th>Subtotal</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="productosTicket">
+
+                    
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+        <section class="ticket-total">
+
+            <h2>Total: $<span id="precioTotal"></span></h2>
+
+        </section>
+
+        <footer class="ticket-footer">
+
+            <p>Gracias por comprar en G.R.I.D</p>
+
+            <p>
+                Lucas Laruffa • Facundo Acevedo • Agustín Leyes
+            </p>
+
+        </footer>
+
+        <div class="acciones">
+
+            <button id="btnDescargar">
+                Descargar PDF
+            </button>
+
+            <button id="btnFinalizar">
+                Finalizar
+            </button>
+
+        </div>
+
+    </main>
+
+    <script type="module" src="/JS/ticket.js"></script>
+
 </body>
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+ <script src="../JS/ticket.js"></script>
+
 </html>
