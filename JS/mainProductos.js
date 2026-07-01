@@ -72,6 +72,7 @@ async function cargarDatos() {
 // MOSTRAR PRODUCTOS CON CARRITO
 export async function mostrarProductosFiltrados(arrayProductosFiltrados) {
     const carrito = obtenerDatosCarrito();
+    console.log(arrayProductosFiltrados.map(p => p.id));
     arrayProductosFiltrados.forEach(prod => {
         const nuevoProdcuto = new classProducto({ ...prod });
 
@@ -152,44 +153,42 @@ export async function mostrarProductosFiltrados(arrayProductosFiltrados) {
 btnLib.onclick = async () => {
     btnLib.classList.add("selected-btn");
     btnProg.classList.remove("selected-btn");
-    productosContainer.replaceChildren();
+
     iconImg.src = "../IMAGES/img-library.png";
+
     tipoActual = "libreria";
     pagina = 1;
-    const productos = await cargarDatos();
-    mostrarProductosFiltrados(productos);
+
+    await render();
 };
 
 btnProg.onclick = async () => {
     btnProg.classList.add("selected-btn");
     btnLib.classList.remove("selected-btn");
-    productosContainer.replaceChildren();
+
     iconImg.src = "../IMAGES/img-program.jpg";
+
     tipoActual = "programa";
     pagina = 1;
-    const productos = await cargarDatos();
-    mostrarProductosFiltrados(productos);
+
+    await render();
 };
 
 // BOTONES DE PAGINACION
 btnSiguiente.addEventListener("click", async () => {
     if (pagina < totalPaginas) {
         pagina++;
-        productosContainer.replaceChildren();
-        const productos = await cargarDatos();
-        mostrarProductosFiltrados(productos);
+       await render();
     }
 });
 
 btnAnterior.addEventListener("click", async () => {
     if (pagina > 1) {
         pagina--;
-        productosContainer.replaceChildren();
-        const productos = await cargarDatos();
-        mostrarProductosFiltrados(productos);
+        await render();
     }
 });
-
+let inicializado=false;
 // CARGA INICIAL
 btnProg.classList.add("selected-btn");
 productosContainer.replaceChildren();

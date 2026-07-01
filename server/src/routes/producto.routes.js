@@ -21,7 +21,16 @@ productoRouter.get("/:id",validarIDMW,obtenerProductoPorId);
 //preguntar SI ACA NECEISTO  PONER MULTER.
 productoRouter.put("/:id",middlewareMulter.single("imagenProducto"),validarIDMW,validarProductoModificado,modificarProducto);
 
-productoRouter.post("/",middlewareMulter.single("imagenProducto"),validarProductoACrear,crearProducto);
+productoRouter.post("/",(req, res, next) => {
+    middlewareMulter.single("imagenProducto")(req, res, (err) => {
+        if (err) {
+            return res.status(400).send({ 
+                errores: [{ message: err.message }] 
+            });
+        }
+        next();
+    });
+},validarProductoACrear,crearProducto);
 
 productoRouter.patch("/:id/desactivar",validarIDMW,desactivarProducto);
 

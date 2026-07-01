@@ -104,10 +104,12 @@
 
 
             const resultado= await Swal.fire({
-                icon: "stop",
+                icon: "warning",
                 title: "Confirmacion....",
                 text:"¿Desea confimar la desactivacion del producto?" ,
+                showCancelButton: true,
                 confirmButtonText: "ACEPTAR",
+                cancelButtonText: "CANCELAR",
                 customClass: {
                     popup: 'swal-popup',
                     title: 'swal-title',

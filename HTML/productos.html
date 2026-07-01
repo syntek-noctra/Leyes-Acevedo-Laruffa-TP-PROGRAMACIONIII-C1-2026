@@ -9,10 +9,7 @@
 
 
     <title>In the G.R.I.D</title>
-    <script>
-          const temaGuardado = localStorage.getItem("tema") || "oscuro";
-        document.documentElement.setAttribute("data-theme", temaGuardado);
-    </script>
+    <script src="../JS/tema.js"></script>
 </head>
 
 <body>
@@ -140,21 +137,6 @@
     <button onclick="cambiarTema()">BOTON CLARO Y OSCURO</button>
 
 
-    <script>
-        function cambiarTema(){
-            const html=document.querySelector("html");
-
-            const temaActual=html.getAttribute("data-theme");
-
-            if(temaActual === "claro"){
-                html.setAttribute("data-theme","oscuro");
-                localStorage.setItem("tema","oscuro");
-            }else{
-                html.setAttribute("data-theme","claro");
-                localStorage.setItem("tema","claro");
-            }
-        }
-    </script>
     <script type="module" src="/JS/classProducto.js"></script>
     <script type="module" src="/JS/mainProductos.js"></script>
 </body>

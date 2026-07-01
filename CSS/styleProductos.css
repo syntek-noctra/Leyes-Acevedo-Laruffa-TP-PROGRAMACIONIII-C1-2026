@@ -1,14 +1,8 @@
 @import url(/variables.css);
 
-:root {
-    --white-GRID-color: #f5f5f5;
-    --black-GRID-color: #0f1116;
-    --green-GRID-color: #8ac4a2;
-}
-
-a{
+a {
     text-decoration: none;
-    color:#fff;
+    color: var(--text-color);
 }
 
 html, body {
@@ -18,8 +12,8 @@ html, body {
 }
 
 body {
-    background-color: var(--black-GRID-color);
-    color: var(--white-GRID-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -64,21 +58,20 @@ body {
     overflow-x: auto;
     text-align: center;
     margin: 0;
-    color: var(--white-GRID-color);
+    color: var(--text-color);
     font-size: 14px;
     white-space: pre;
-     line-height: 1.4;
-     font-family: monospace;
-       min-height: 80px;
+    line-height: 1.4;
+    font-family: monospace;
+    min-height: 80px;
 }
 
 /* BRÚJULAS */
 .brujulas-ascii {
-    color: var(--green-GRID-color);
+    color: var(--accent-color);
     font-size: 4px;
     position: fixed;
     top: 10px;
-
 }
 
 #brujula-ascii-1 { left: 50px; }
@@ -87,11 +80,11 @@ body {
 /* ASIDE SÍMBOLOS */
 .aside-simbols {
     position: fixed;
-     height: 650px;        /* antes 900px */
-    width: 300px; 
+    height: 650px;
+    width: 300px;
     top: 180px;
     pointer-events: none;
-     opacity: 0.6;
+    opacity: 0.6;
 }
 
 #aside-simbols-right { right: 1px; }
@@ -103,7 +96,7 @@ main {
     justify-content: center;
     width: 100%;
     padding: 20px 0;
-    margin-top:20px;
+    margin-top: 20px;
 }
 
 .principal-productos {
@@ -111,30 +104,29 @@ main {
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     width: 1100px;
-    border: 2px dashed white;
+    border: 2px dashed var(--border-color);
     padding: 20px;
 }
 
-.producto-card-div {
-    position: relative;
-    border: 1px solid white;
+ .producto-card-div{
+          position: relative;
+    border: 1px solid var(--border-color);
     padding: 10px;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    background: #111;
-}
-
-.producto-card-div img {
-    width: 100%;
-    height: auto;
-}
-
-.boton-add{
+    background: var(--card-bg);
+    }
+    .producto-card-div img {
+         width: 100%;
+    height: 180px;      /* todas la misma altura */
+    object-fit: cover; 
+    }
+.boton-add {
     width: 80%;
-    margin:0 auto;
-    background-color: #0f1116;
-    color: var(--white-GRID-color);
+    margin: 0 auto;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     font-weight: 900;
     border-width: 3px;
     border-color: #00ff88;
@@ -142,16 +134,15 @@ main {
     right: 10px;
 }
 
-.boton-add:hover{
+.boton-add:hover {
     cursor: pointer;
     background-color: #00ff88;
     color: #000;
     box-shadow: 0 0 5px #00ff88, 0 0 15px #00ff88, 0 0 30px #ffffff;
     transition: all 0.4s ease;
-
 }
 
-.div-botones-carrito{
+.div-botones-carrito {
     display: flex;
     justify-content: space-between;
     gap: 10px;
@@ -163,44 +154,48 @@ main {
     width: 10%;
     background-color: #0f1116;
     color: var(--white-GRID-color);
-    font-weight: 900;
-    border-width: 1px;
-    border-color: #f5f5f5;
+    width: 80%;
+    margin: 0 auto;
 }
 
-.div-botones-carrito > button:hover{
+.div-botones-carrito > button {
+    width: 30%;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-weight: 900;
+    border-width: 1px;
+    border-color: var(--border-color);
+}
+
+.div-botones-carrito > button:hover {
     color: #00ff88;
     text-shadow: 0 0 5px #00ff88, 0 0 10px #00ff88, 0 0 20px #00ff88;
     border-color: #00ff88;
-    cursor:pointer;
-
-
+    cursor: pointer;
 }
 
-.card-seleccionada{
+.card-seleccionada {
     border-color: #00ff88;
-    
 }
 
-
-/* FOOTER — igual al de bienvenida */
+/* FOOTER */
 .grid-footer {
     display: flex;
     justify-content: center;
     margin-top: 40px;
     margin-bottom: 20px;
-    color: var(--green-GRID-color);
+    color: var(--accent-color);
     font-family: monospace;
     letter-spacing: 2px;
     opacity: 0.7;
 }
 
 .grid-footer p {
-    border-top: 1px solid var(--green-GRID-color);
+    border-top: 1px solid var(--accent-color);
     padding-top: 10px;
 }
 
-
+/* PAGINACION */
 #paginacion {
     display: flex;
     justify-content: center;
@@ -212,8 +207,8 @@ main {
 
 #paginacion button {
     background-color: transparent;
-    color: var(--green-GRID-color);
-    border: 1px solid var(--green-GRID-color);
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
     padding: 8px 20px;
     cursor: pointer;
     font-family: monospace;
@@ -222,94 +217,99 @@ main {
 }
 
 #paginacion button:hover {
-    background-color: var(--green-GRID-color);
-    color: black;
+    background-color: var(--accent-color);
+    color: var(--bg-color);
     box-shadow: 0 0 5px #00ff88, 0 0 15px #00ff88;
 }
 
 #info-pagina {
-    color: var(--white-GRID-color);
+    color: var(--text-color);
     font-family: monospace;
     letter-spacing: 2px;
     font-size: 14px;
 }
-/* CARRITO DE COMRPAS */
-.carrito-icono{
-display: flex;
-flex-direction: column;
-align-items: center;
-width: 50px;
-height: 50px;
-position: absolute;
-top:20px;
-right:20px;
-background-color: #00ff88;
-border-radius: 50%;
-padding: 10px;
+
+/* CARRITO */
+.carrito-icono {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #00ff88;
+    border-radius: 50%;
+    padding: 10px;
 }
 
-.carrito-icono img{
-width: 30px;
-height: 30px;
-object-fit: contain;
+.carrito-icono img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
 }
 
-.carrito-icono .texto-carrito{
-    margin-top:-5px;
-    color:#000;
-    font-size:24px;
+.carrito-icono .texto-carrito {
+    margin-top: -5px;
+    color: #000;
+    font-size: 24px;
     font-weight: bold;
 }
 
-.carritoProductos{
+.carritoProductos {
     display: flex;
     flex-direction: column;
-    gap:15px;
-    padding:2rem 0 0 0;
+    gap: 15px;
+    padding: 2rem 0 0 0;
 }
-.carritoProductos .header-carrito{
+
+.carritoProductos .header-carrito {
     display: flex;
     justify-content: space-between;
     margin-left: 110px;
 }
-.carritoProductos .header-carrito h2{
-    font-size:16px;
+
+.carritoProductos .header-carrito h2 {
+    font-size: 16px;
 }
 
-#carritoProductos .producto-card-div{
+#carritoProductos .producto-card-div {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    gap:25px;
+    gap: 25px;
 }
 
-#carritoProductos .producto-card-div p{
-max-width: 200px;
-overflow: auto;
+#carritoProductos .producto-card-div p {
+    max-width: 200px;
+    overflow: auto;
 }
 
-#carritoProductos .producto-card-div img{
+#carritoProductos .producto-card-div img {
     width: 100px;
     height: 100px;
     object-fit: contain;
-    margin:0;
+    margin: 0;
     padding: 0;
 }
 
-.carritoProductos .totalContent{
+.carritoProductos .totalContent {
     width: 100%;
     text-align: end;
 }
 
-dialog{
-    border:none;
-    border-radius:10px;
-    padding:20px;
+dialog {
+    border: none;
+    border-radius: 10px;
+    padding: 20px;
+    background: var(--card-bg);
+    color: var(--text-color);
 }
 
-dialog::backdrop{
-    background:rgba(0,0,0,.6);
+dialog::backdrop {
+    background: rgba(0, 0, 0, .6);
 }
 
 .modal-buttons{
@@ -351,3 +351,96 @@ dialog::backdrop{
     letter-spacing: 2px;
     font-size: 14px;
 }
+.modal-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+
+/* ========================= */
+/* TABLETS */
+/* ========================= */
+@media (max-width: 1024px){
+
+    .header{
+        flex-direction: column;
+        height: auto;
+        gap: 20px;
+        padding: 20px 0;
+    }
+
+    .principal-productos{
+        width: 90%;
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .aside-simbols{
+        display: none;
+    }
+
+    .boton-ascii{
+        font-size: 2px;
+    }
+
+    #logo{
+        width:120px;
+        height:120px;
+    }
+
+}
+
+
+
+/* ========================= */
+/* CELULARES */
+/* ========================= */
+@media (max-width:768px){
+
+    .header{
+        flex-direction: column;
+        gap:20px;
+        height:auto;
+        padding:20px;
+    }
+
+    .principal-productos{
+        width:95%;
+        grid-template-columns:1fr;
+        padding:15px;
+    }
+
+   .boton-ascii{
+        font-size: 1.5px;
+        overflow-x: auto;
+        white-space: pre;
+        max-width: 100%;
+    }
+
+    #logo{
+        width:90px;
+        height:90px;
+    }
+
+    .carrito-icono{
+        position:fixed;
+        right:15px;
+        bottom:15px;
+        top:auto;
+        z-index:999;
+    }
+
+    #divisor-ascii{
+        font-size:8px;
+    }
+
+    #paginacion{
+        flex-direction:column;
+        gap:10px;
+    }
+
+    .producto-card-div{
+        width:auto;
+    }
+
+}   

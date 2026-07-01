@@ -43,6 +43,7 @@ export class classProducto {
         console.log(this.imagen);
 
         const cantidadSeleccionada = carrito[this.id] || 0;
+        console.log(carrito[this.id],"   ----------CARITOOOOOOOOOOO");
         const stockDisponible = this.stock - cantidadSeleccionada;
 
         const stockElement = document.createElement("p");

@@ -1,5 +1,5 @@
 const productosContainer = document.getElementById("carritoProductos");
-import { generarTicket } from "./ticket.js";
+
 const modalCompra = document.getElementById("modalCompra");
 const btnCancelarCompra = document.getElementById("btnCancelarCompra");
 const btnConfirmarCompra = document.getElementById("btnConfirmarCompra");
@@ -8,9 +8,9 @@ const totalElement = document.createElement("p");
 
 // Traigo los datos de forma global en el carrito
 const cantidades = JSON.parse(  localStorage.getItem("carritoDeProductos") ) || {};    
-const datos = await cargarDatos(cantidades);
-let productosCompra = []
-productosCompra =  datos;
+//const datos = await cargarDatos(cantidades);
+/* let productosCompra = []
+productosCompra =  datos; */
 
 function obtenerDatosCarrito() {
     return JSON.parse(localStorage.getItem("carritoDeProductos")) || {};
@@ -35,25 +35,75 @@ async function mostrarProductosFiltrados( cantidadesLocalStorage ){
     // OBTENER CANTIDADES DE LOS PRODUCTOS POR ID
     
     const cantidades = JSON.parse(  localStorage.getItem("carritoDeProductos") ) || {};    
+    
+    if (Object.keys(cantidades).length === 0) {
+        productosContainer.innerHTML = "";
 
-    const datos= await cargarDatos(cantidades)
-    console.log("datos del fetch por id",datos)
+        const mensaje = document.createElement("p");
+        mensaje.textContent = "No hay ningún producto agregado al carrito";
+        mensaje.classList.add("carrito-vacio");
+
+        productosContainer.appendChild(mensaje);
+        return;
+    }
+    
+    const productosCompra= await cargarDatos(cantidades);
+    console.log("productosCompra del fetch por id",productosCompra)
     console.log("cantidades local storage",cantidades)
 
+    //console.log(productosCompra,"------------------- PRODUCTOS COPMRA")
     const comprarButton = document.createElement("button");
     comprarButton.textContent="COMPRAR";
     comprarButton.addEventListener("click", () => { modalCompra.showModal(); });
     btnCancelarCompra.addEventListener( "click", () => modalCompra.close() );
     btnConfirmarCompra.addEventListener( "click", async () => { 
-
+        console.log(usuario,"USUARIO------------------------")
+        const productosParaEnviar=productosCompra.map(p=>({
+            id:p.id,
+            cantidad:p.cantidad,
+        }))
         // const funcionPostParaEnviarTodaLaInforAlBackend= () => null;
         // ACA EN EL POST ENVIAMOS LA INFO DE DATOS O TODA LA DATA DEL CARRITO (NOMBRE USUARIO, ID DE CADA PRODUCTO Y CANTIDAD)
         // SE GENERA UNA ORDEN DE VENTA, EN ESTA MISMA LA RESPUESTA ES OK CON LA INFO DEL ID, PRODS, ETC O ERROR 
         modalCompra.close();
+          const data=await response.json();
+         if (!response.ok || !data.ok) {
+           
+              const resultado= await Swal.fire({
+                icon: "warning",
+                title: "STOCK INSUFCIENTE",
+                text:data.message,
+                showCancelButton: true,
+                confirmButtonText: "ACEPTAR",
+                customClass: {
+                    popup: 'swal-popup',
+                    title: 'swal-title',
+                    htmlContainer: 'swal-text',
+                    confirmButton: 'swal-button'
+                }
+            });
+            return;
+        }
         // const funcionTraerDatosDelBackendDespuesDelPost= () => null;
         // const extraigoLosDatosDeLaVentaDeLaFuncion = funcionTraerDatosDelBackendDespuesDelPost();
 
-        generarTicket({ numeroVenta: 1, productos: datos, total: calcularSubTotal(productosCompra) });
+       
+        const ticket={numeroVenta:data.ventaId,productos:productosCompra,total:calcularSubTotal(productosCompra),nombre:usuario.name};
+     localStorage.removeItem("carritoDeProductos");
+        localStorage.setItem("ticket",JSON.stringify(ticket));
+        window.location.href = "/HTML/ticket.html";
+        productosContainer.innerHTML = "";
+
+        
+
+/* 
+
+        generarTicket({ numeroVenta: data.ventaId, productos: productosCompra, total: calcularSubTotal(productosCompra) });
+        localStorage.removeItem("userLocal");
+        localStorage.removeItem("carritoDeProductos");
+         productosContainer.innerHTML = "";
+
+         window.location.href = "../HTML/bienvenida.html"; */
     });
     
     if(datos.length < 1) {
@@ -71,7 +121,9 @@ async function mostrarProductosFiltrados( cantidadesLocalStorage ){
             descripcionElement.textContent = producto.descripcion;
 
             const imagenElement = document.createElement("img");
-            imagenElement.src = producto.imagen;
+              imagenElement.src = producto.imagen.startsWith("http") 
+                            ? producto.imagen :
+                             `http://localhost:3000/imagenes/productos/${producto.imagen}`;
             const stockElement = document.createElement("p");
             stockElement.textContent = "STOCK: " + producto.stock;
 
@@ -202,7 +254,7 @@ async function mostrarProductosFiltrados( cantidadesLocalStorage ){
         });
 
         const totalElement = document.createElement("p");
-        totalElement.textContent = `$ ${calcularSubTotal(datos)}`;
+        totalElement.textContent = `$ ${calcularSubTotal(productosCompra).toFixed(2)}`;
         totalElement.classList.add("totalContent");
         productosContainer.appendChild(totalElement)
         productosContainer.appendChild(comprarButton)
