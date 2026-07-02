@@ -49,6 +49,15 @@ const obtenerVentaPorIdDB=async(id)=>{
 
 }
 
+const obtenerVentaExcelDB = async () => {
+    return await Venta.findAll({
+        include: {
+            model: Producto,
+            through: { attributes: ["cantidad"] }
+        },
+        order: [['fecha', 'DESC']]
+    });
+};
 
 
-module.exports={crearVentaDB,obtenerVentasDB,obtenerVentaPorIdDB}
+module.exports={crearVentaDB,obtenerVentasDB,obtenerVentaPorIdDB, obtenerVentaExcelDB}

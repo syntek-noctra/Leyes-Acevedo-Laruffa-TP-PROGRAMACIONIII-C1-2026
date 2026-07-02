@@ -1,4 +1,9 @@
 console.log(window.jspdf);
+history.pushState(null, null, location.href);
+
+window.onpopstate = function () {
+    window.location.href = "./bienvenida.html";
+};
 
 const { jsPDF } = window.jspdf;
 

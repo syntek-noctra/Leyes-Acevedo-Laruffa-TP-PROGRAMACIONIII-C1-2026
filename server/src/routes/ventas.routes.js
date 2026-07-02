@@ -1,14 +1,14 @@
-const { obtenerVentas, obtenerVentaPorId, crearVenta } = require("../controllers/ventas.controller");
+const { obtenerVentas, obtenerVentaPorId, crearVenta, generarExcelVentas } = require("../controllers/ventas.controller");
 
 const ventaRouter = require("express").Router();
 
 
 
 ventaRouter.post("/",crearVenta)
+ventaRouter.get("/export/excel", generarExcelVentas);
+ventaRouter.get("/", obtenerVentas);
+ventaRouter.get("/:id", obtenerVentaPorId);
 
-ventaRouter.get("/",obtenerVentas);
-
-ventaRouter.get("/:id",obtenerVentaPorId);
 
 
 module.exports=ventaRouter;
