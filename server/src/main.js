@@ -1,7 +1,12 @@
+require("dotenv").config();
+
 const express=require("express");
 const cors = require("cors");
+
 const adminRouter=require("./routes/admin.routes");
 const productoRouter=require("./routes/producto.routes")
+
+
 const conexion=require("./db/sequelize");
 const ventaRouter = require("./routes/ventas.routes");
 
@@ -36,7 +41,7 @@ app.use("/venta",ventaRouter);
     await conexion.sync({ alter: true });
     console.log("Tablas sincronizadas");
 
-    app.listen(3000, () => {
+    app.listen(process.env.PORT, () => {
       console.log("Servidor en puerto 3000");
     });
 
