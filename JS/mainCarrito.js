@@ -8,9 +8,9 @@ const totalElement = document.createElement("p");
 
 // Traigo los datos de forma global en el carrito
 const cantidades = JSON.parse(  localStorage.getItem("carritoDeProductos") ) || {};    
-//const datos = await cargarDatos(cantidades);
-/* let productosCompra = []
-productosCompra =  datos; */
+const datos = await cargarDatos(cantidades);
+let productosCompra = []
+productosCompra =  datos;
 
 function obtenerDatosCarrito() {
     return JSON.parse(localStorage.getItem("carritoDeProductos")) || {};

@@ -227,14 +227,10 @@ importers:
         version: 3.22.5(@types/node@25.9.3)
       sequelize:
         specifier: ^6.37.8
-<<<<<<< HEAD
         version: 6.37.8(mysql2@3.22.5(@types/node@25.9.3))
-=======
-        version: 6.37.8(mysql2@3.22.3(@types/node@25.9.1))
       sweetalert2:
         specifier: ^11.26.25
         version: 11.26.25
->>>>>>> origin/main
       zod:
         specifier: ^4.4.3
         version: 4.4.3
@@ -264,17 +260,12 @@ packages:
     resolution: {integrity: sha512-NZKeq9AfyQvEeNlN0zSYAaWrmBffJh3IELMZfRpJVWgrpEbtEpnjvzqBPf+mxoI287JohRDoa+/nsfqqiZmF6g==}
     engines: {node: '>= 6.0.0'}
 
-<<<<<<< HEAD
-  body-parser@2.3.0:
-    resolution: {integrity: sha512-2cGmJupaNgg+QUwVLAucDuWuoMZ6EX9iHDRswZ5lsNYEmwPaRknMPCLZz07yTzVq/83p4o/wzbDZbBrTvGGTIw==}
-=======
   bcrypt@6.0.0:
     resolution: {integrity: sha512-cU8v/EGSrnH+HnxV2z0J7/blxH8gq7Xh2JFT6Aroax7UohdmiJJlxApMxtKfuI7z68NvvVcmR78k2LbT6efhRg==}
     engines: {node: '>= 18'}
 
-  body-parser@2.2.2:
-    resolution: {integrity: sha512-oP5VkATKlNwcgvxi0vM0p/D3n2C3EReYVX+DNYs5TjZFn/oQt2j+4sVJtSMr18pdRr8wjTcBl6LoV+FUwzPmNA==}
->>>>>>> origin/main
+  body-parser@2.3.0:
+    resolution: {integrity: sha512-2cGmJupaNgg+QUwVLAucDuWuoMZ6EX9iHDRswZ5lsNYEmwPaRknMPCLZz07yTzVq/83p4o/wzbDZbBrTvGGTIw==}
     engines: {node: '>=18'}
 
   buffer-from@1.1.2:
@@ -742,16 +733,12 @@ snapshots:
 
   aws-ssl-profiles@1.1.2: {}
 
-<<<<<<< HEAD
-  body-parser@2.3.0:
-=======
   bcrypt@6.0.0:
     dependencies:
       node-addon-api: 8.8.0
       node-gyp-build: 4.8.4
 
-  body-parser@2.2.2:
->>>>>>> origin/main
+  body-parser@2.3.0:
     dependencies:
       bytes: 3.1.2
       content-type: 2.0.0

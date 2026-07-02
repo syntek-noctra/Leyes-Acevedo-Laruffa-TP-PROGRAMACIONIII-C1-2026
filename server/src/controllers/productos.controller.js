@@ -66,12 +66,8 @@ const deleteProductos = async (req, res) => {
 const crearProducto = async (req, res) => {
     const { nombre, precio, tipo, descripcion,stock} = req.body;
     const imagen = req.file.filename;
-<<<<<<< HEAD
-    const productoCreado = await crearProductoBD({ nombre, precio, imagen, tipo, descripcion })
-=======
     console.log(stock,"CREAAAAAAAAAAAAAAAAAAAAAAAAR");
     const productoCreado = await crearProductoBD({ nombre, precio, imagen, tipo, descripcion,stock });
->>>>>>> origin/main
     res.send(productoCreado);
 }
 
