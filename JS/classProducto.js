@@ -1,3 +1,5 @@
+import CONFIG from "./config.js";
+
 export class classProducto {
 
     constructor({
@@ -39,7 +41,7 @@ export class classProducto {
         const imagenElement = document.createElement("img");
         imagenElement.src = this.imagen.startsWith("http") 
                             ? this.imagen :
-                             `http://localhost:3000/imagenes/productos/${this.imagen}`;
+                             `${CONFIG.API_URL}${CONFIG.ENDPOINTS.IMAGENES}/${this.imagen}`;
         console.log(this.imagen);
 
         const cantidadSeleccionada = carrito[this.id] || 0;

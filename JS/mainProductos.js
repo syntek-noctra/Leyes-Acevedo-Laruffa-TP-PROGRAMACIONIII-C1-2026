@@ -1,3 +1,4 @@
+import CONFIG from "./config.js";
 
 import { classProducto } from "./classProducto.js";
 
@@ -54,8 +55,8 @@ export function sumarACarrito(producto) {
 // FETCH CON PAGINACION Y TIPO
 async function cargarDatos() {
     const url = tipoActual
-        ? `http://localhost:3000/producto?page=${pagina}&tipo=${tipoActual}`
-        : `http://localhost:3000/producto?page=${pagina}`;
+        ? `${CONFIG.API_URL}${CONFIG.ENDPOINTS.PRODUCTOS}?page=${pagina}&tipo=${tipoActual}`
+        : `${CONFIG.API_URL}${CONFIG.ENDPOINTS.PRODUCTOS}?page=${pagina}`;
 
     const response = await fetch(url);
     const datos = await response.json();

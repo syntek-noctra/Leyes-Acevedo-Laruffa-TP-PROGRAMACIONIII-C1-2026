@@ -1,3 +1,5 @@
+import CONFIG from "./config.js";
+
 const productosContainer = document.getElementById("carritoProductos");
 
 const modalCompra = document.getElementById("modalCompra");
@@ -63,8 +65,18 @@ async function mostrarProductosFiltrados( cantidadesLocalStorage ){
             cantidad:p.cantidad,
         }))
         // const funcionPostParaEnviarTodaLaInforAlBackend= () => null;
-        // ACA EN EL POST ENVIAMOS LA INFO DE DATOS O TODA LA DATA DEL CARRITO (NOMBRE USUARIO, ID DE CADA PRODUCTO Y CANTIDAD)
-        // SE GENERA UNA ORDEN DE VENTA, EN ESTA MISMA LA RESPUESTA ES OK CON LA INFO DEL ID, PRODS, ETC O ERROR 
+        const response=await fetch(CONFIG.API_URL + CONFIG.ENDPOINTS.VENTAS, {
+            method:"POST",
+            headers:{"content-type" : "application/json"},
+            body: JSON.stringify({
+                nombreUsuario:usuario.name,
+                total:calcularSubTotal(productosCompra),
+                productos:productosParaEnviar,
+            })
+        })
+     
+       
+      
         modalCompra.close();
           const data=await response.json();
          if (!response.ok || !data.ok) {
@@ -123,7 +135,7 @@ async function mostrarProductosFiltrados( cantidadesLocalStorage ){
             const imagenElement = document.createElement("img");
               imagenElement.src = producto.imagen.startsWith("http") 
                             ? producto.imagen :
-                             `http://localhost:3000/imagenes/productos/${producto.imagen}`;
+                             `${CONFIG.API_URL}${CONFIG.ENDPOINTS.IMAGENES}/${producto.imagen}`;
             const stockElement = document.createElement("p");
             stockElement.textContent = "STOCK: " + producto.stock;
 
@@ -270,7 +282,7 @@ async function cargarDatos(cantidadesLocalStorage) {
 
         ids.map(async id => {
 
-            const response = await fetch( `http://localhost:3000/producto/${id}` );
+            const response = await fetch(`${CONFIG.API_URL}${CONFIG.ENDPOINTS.PRODUCTOS}/${id}`);
 
             const producto = await response.json();
 

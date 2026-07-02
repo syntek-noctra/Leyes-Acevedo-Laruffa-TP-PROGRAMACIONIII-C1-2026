@@ -1,3 +1,4 @@
+import CONFIG from "./config.js";
 
 /*===VARIABLES Y CONSTANTES PRINCIPALES===*/
 const registerBtn=document.querySelector(".button-enter");
@@ -53,6 +54,6 @@ registerBtn.addEventListener("click",(ev)=>{
 });
 
 document.getElementById("btnAdmin").addEventListener("click",()=>{
-       window.location.href = "http://localhost:3000/admin/login";
+       window.location.href = CONFIG.API_URL + "/admin/login";
 })
 /*========================================*/

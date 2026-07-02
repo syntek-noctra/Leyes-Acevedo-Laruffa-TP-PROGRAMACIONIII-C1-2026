@@ -59,11 +59,13 @@ const crearAdmin=async(req,res)=>{
 const loginAdmin=async(req,res)=>{
     const {email,password}=req.body;
     const admin=await buscarAdminPorEmailDB(email);
+
+    console.log(admin);
     if (!admin) return res.status(401).send({ mensaje: "Email incorrecto" });
     const passwordCorrecta = await bcrypt.compare(password, admin.password);
     if (!passwordCorrecta) return res.status(401).send({ mensaje: "Contraseña incorrecta" });
     res.send({ ok: true });
-
+ 
 }
 
 
