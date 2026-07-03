@@ -40,46 +40,56 @@ const generarExcelVentas = async (req, res) => {
         const workbook = new ExcelJS.Workbook();
         const sheet = workbook.addWorksheet("Reporte Ventas");
 
-        // =========================
-        // 🧾 HOJA: VENTAS
-        // =========================
         sheet.addRow(["VENTAS"]);
-        sheet.addRow([]);
 
-        sheet.addRow(["ID", "Usuario", "Total", "Fecha"]);
+        sheet.addRow(["ID", "Usuario", "Total", "Fecha", "Hora"]);
 
         ventas.forEach(v => {
+
+            const fechaVenta = new Date(v.fecha);
+
+            const fecha = fechaVenta.toLocaleDateString("es-AR");
+
+            const hora =
+                `${String(fechaVenta.getHours()).padStart(2,"0")}:` +
+                `${String(fechaVenta.getMinutes()).padStart(2,"0")}:` +
+                `${String(fechaVenta.getSeconds()).padStart(2,"0")}`;
+
             sheet.addRow([
                 v.id,
                 v.nombreUsuario,
                 v.precioTotal,
-                v.fecha
+                fecha,
+                hora
             ]);
+
         });
 
-        sheet.addRow([]);
-        sheet.addRow([]);
-        sheet.addRow([]);
+            sheet.addRow([]);
+            sheet.addRow([]);
+            sheet.addRow([]);
 
-        // =========================
-        // 📦 DETALLE VENTAS
-        // =========================
-        sheet.addRow(["DETALLE VENTAS"]);
-        sheet.addRow([]);
+            // =========================
+            // 📦 DETALLE VENTAS
+            // =========================
+            sheet.addRow(["DETALLE VENTAS"]);
+            sheet.addRow(["ID Venta", "Usuario", "Fecha", "Producto", "Cantidad"]);
 
-        sheet.addRow(["ID Venta", "Usuario", "Fecha", "Producto", "Cantidad"]);
+            ventas.forEach(v => {
 
-        ventas.forEach(v => {
-            v.Productos.forEach(p => {
-                sheet.addRow([
-                    v.id,
-                    v.nombreUsuario,
-                    v.fecha,
-                    p.nombre,
-                    p.VentaProducto?.cantidad || 1
-                ]);
+                v.Productos.forEach(p => {
+
+                    sheet.addRow([
+                        v.id,
+                        v.nombreUsuario,
+                        v.fecha,
+                        p.nombre,
+                        p.VentaProducto?.cantidad || 1
+                    ]);
+
+                });
+
             });
-        });
 
         // =========================
         // DESCARGA
@@ -104,86 +114,7 @@ const generarExcelVentas = async (req, res) => {
             error: error.message
         });
     }
-};
-
-// const generarExcelVentas = async (req, res) => {
-//     try {
-//         // Traemos ventas con productos asociados
-//         const venta = await obtenerVentaExcelDB(id);
-
-//         const workbook = new ExcelJS.Workbook();
-
-//         // =========================
-//         // HOJA 1: VENTAS
-//         // =========================
-//         const sheetVentas = workbook.addWorksheet("Ventas");
-
-//         sheetVentas.columns = [
-//             { header: "ID Venta", key: "id", width: 10 },
-//             { header: "Usuario", key: "nombreUsuario", width: 25 },
-//             { header: "Total", key: "precioTotal", width: 15 },
-//             { header: "Fecha", key: "fecha", width: 25 },
-//         ];
-
-//         ventas.forEach(v => {
-//             sheetVentas.addRow({
-//                 id: v.id,
-//                 nombreUsuario: v.nombreUsuario,
-//                 precioTotal: v.precioTotal,
-//                 fecha: v.fecha,
-//             });
-//         });
-
-//         // =========================
-//         // HOJA 2: DETALLE VENTA
-//         // =========================
-//         const sheetDetalle = workbook.addWorksheet("Detalle Venta");
-
-//         sheetDetalle.columns = [
-//             { header: "ID Venta", key: "ventaId", width: 10 },
-//             { header: "Usuario", key: "usuario", width: 25 },
-//             { header: "Fecha", key: "fecha", width: 25 },
-//             { header: "Producto", key: "producto", width: 30 },
-//             { header: "Cantidad", key: "cantidad", width: 10 },
-//         ];
-
-//         ventas.forEach(v => {
-//             v.Productos.forEach(p => {
-//                 sheetDetalle.addRow({
-//                     ventaId: v.id,
-//                     usuario: v.nombreUsuario,
-//                     fecha: v.fecha,
-//                     producto: p.nombre,
-//                     cantidad: p.VentaProducto?.cantidad || 1,
-//                 });
-//             });
-//         });
-
-//         // =========================
-//         // EXPORTAR EXCEL
-//         // =========================
-//         res.setHeader(
-//             "Content-Type",
-//             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-//         );
-
-//         res.setHeader(
-//             "Content-Disposition",
-//             "attachment; filename=ventas.xlsx"
-//         );
-
-//         await workbook.xlsx.write(res);
-//         res.end();
-
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).send({
-//             ok: false,
-//             message: "Error generando Excel",
-//             error: error.message,
-//         });
-//     }
-// };
+}
 
 module.exports={crearVenta,obtenerVentaPorId,obtenerVentas, generarExcelVentas}
     

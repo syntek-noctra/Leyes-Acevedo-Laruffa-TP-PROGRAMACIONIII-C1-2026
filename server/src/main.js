@@ -42,7 +42,7 @@ app.use("/venta",ventaRouter);
     console.log("Tablas sincronizadas");
 
     app.listen(process.env.PORT, () => {
-      console.log("Servidor en puerto 3000");
+      console.log("Servidor en puerto PORT",process.env.PORT);
     });
 
   } catch (error) {

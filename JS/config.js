@@ -1,6 +1,6 @@
 // config.js - variabes de entorno 
 const CONFIG = {
-    API_URL: "http://localhost:3000",
+    API_URL: "http://localhost:19120",
 
     ENDPOINTS: {
         PRODUCTOS: "/producto",
