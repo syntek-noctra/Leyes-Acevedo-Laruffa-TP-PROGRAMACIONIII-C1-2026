@@ -45,11 +45,13 @@ export class classProducto {
         console.log(this.imagen);
 
         const cantidadSeleccionada = carrito[this.id] || 0;
-        console.log(carrito[this.id],"   ----------CARITOOOOOOOOOOO");
         const stockDisponible = this.stock - cantidadSeleccionada;
 
         const stockElement = document.createElement("p");
         stockElement.textContent = "STOCK: " + stockDisponible;
+
+        const precioElement = document.createElement("p");
+        precioElement.textContent = "$" + this.precio;
 
         const botonAgregar = document.createElement("button");
         botonAgregar.textContent = "++++ADD++++";
@@ -69,8 +71,8 @@ export class classProducto {
 
         divBotonesCarrito.append(botonRestar, cantidadSeleccionadaElement, botonSumar);
 
-        divAgrupadora.append(nombreElement, descripcionElement, imagenElement, stockElement);
+        divAgrupadora.append(nombreElement, descripcionElement, imagenElement, stockElement, precioElement);
 
-        return { divAgrupadora, botonAgregar, botonSumar, botonRestar, stockElement, cantidadSeleccionadaElement, divBotonesCarrito };
+        return { divAgrupadora, botonAgregar, botonSumar, botonRestar, stockElement, precioElement, cantidadSeleccionadaElement, divBotonesCarrito };
     }
 }

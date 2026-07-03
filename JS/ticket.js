@@ -5,13 +5,16 @@ window.onpopstate = function () {
     window.location.href = "./bienvenida.html";
 };
 
+window.onlo
+
 const { jsPDF } = window.jspdf;
 
 
 
 const ticket = JSON.parse(localStorage.getItem("ticket"));
+console.log("que tiene ticket?,",ticket)
 ticket.productos.forEach(producto => {
-
+    console.log("cuando entro al foreach muestro", ticket.productos, producto)
     const fila = document.createElement("tr");
 
     fila.innerHTML = `
@@ -23,6 +26,7 @@ ticket.productos.forEach(producto => {
 
     document.getElementById("productosTicket").appendChild(fila);
 });
+
 document.getElementById("nombreCliente").textContent = JSON.parse(localStorage.getItem("userLocal")).name;
 document.getElementById("fechaCompra").textContent = new Date().toLocaleString();
 document.getElementById("numeroVenta").textContent = ticket.numeroVenta;

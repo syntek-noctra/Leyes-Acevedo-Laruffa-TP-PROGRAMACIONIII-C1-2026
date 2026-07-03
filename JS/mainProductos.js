@@ -84,6 +84,7 @@ export async function mostrarProductosFiltrados(arrayProductosFiltrados) {
             botonSumar,
             botonRestar,
             stockElement,
+            precioElement,
             cantidadSeleccionadaElement,
             divBotonesCarrito
         } = nuevoProdcuto.createHtmlElement(carrito); //me retorna  todo esos elementos y me ahorro hacer el "x:x directamente pongo x"
